@@ -19,12 +19,16 @@ class AdminHomepage extends StatelessWidget {
                 width: 100,
                 height: 100,
               ),
+              const Padding(padding: EdgeInsets.all(10)),
               // Add a pet
               addPet('Add a pet'),
+              const Padding(padding: EdgeInsets.all(10)),
               // Edit/Delete pet list
               addPet('Edit pet list'),
+              const Padding(padding: EdgeInsets.all(10)),
               // Account information
               addPet('Account Information'),
+              const Padding(padding: EdgeInsets.all(10)),
               addPet('Add to News Feed')
             ],
           ),
