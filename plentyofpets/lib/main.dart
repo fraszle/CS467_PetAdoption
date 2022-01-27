@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'components/home_screen.dart';
 import 'components/landing_screen.dart';
-import 'admin_homepage.dart';
 import 'firebase_options.dart';
 
 void main() async {
