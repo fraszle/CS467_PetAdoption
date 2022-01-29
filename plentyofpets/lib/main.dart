@@ -6,6 +6,7 @@ import 'package:plentyofpets/theme.dart';
 import 'screens/signup_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/landing_screen.dart';
+import 'screens/admin_homepage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   static const loginRoute = '/';
   static const homeRoute = '/home';
   static const signupRoute = '/signup';
+  static const adminRoute = '/admin';
 
   const MyApp({Key? key}) : super(key: key);
 
@@ -33,7 +35,8 @@ class MyApp extends StatelessWidget {
       routes: {
         loginRoute: (context) => const LandingScreen(),
         signupRoute: (context) => const SignupScreen(),
-        homeRoute: (context) => const HomeScreen()
+        homeRoute: (context) => const HomeScreen(),
+        adminRoute: (context) => const AdminHomepage()
       },
     );
   }
