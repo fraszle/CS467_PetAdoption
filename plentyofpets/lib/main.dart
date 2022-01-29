@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:firebase_core/firebase_core.dart';
-import 'components/home_screen.dart';
-import 'components/landing_screen.dart';
+import 'package:plentyofpets/theme.dart';
+
+import 'screens/signup_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/landing_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -15,6 +19,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   static const loginRoute = '/';
   static const homeRoute = '/home';
+  static const signupRoute = '/signup';
 
   const MyApp({Key? key}) : super(key: key);
 
@@ -23,9 +28,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Plenty of Pets',
+      theme: PlentyOfPetsTheme.getTheme(),
       initialRoute: loginRoute,
       routes: {
         loginRoute: (context) => const LandingScreen(),
+        signupRoute: (context) => const SignupScreen(),
         homeRoute: (context) => const HomeScreen()
       },
     );
