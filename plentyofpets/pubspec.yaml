@@ -29,6 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
 
   # Firebase dependencies
   firebase_core: ^1.11.0
@@ -64,9 +65,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -83,9 +83,9 @@ flutter:
     - family: Lato
       fonts:
         - asset: assets/fonts/Lato-Regular.ttf
-    - family: Comforter
+    - family: IndieFlower
       fonts:
-        - asset: assets/fonts/Comforter-Regular.ttf
+        - asset: assets/fonts/IndieFlower-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,

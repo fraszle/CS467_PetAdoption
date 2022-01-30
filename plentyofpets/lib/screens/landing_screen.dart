@@ -1,76 +1,106 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../components/decorations.dart';
 import '../components/login_form.dart';
-import '../components/signup_link.dart';
+import '../components/logo_carousel.dart';
+import '../theme.dart';
 
 class LandingScreen extends StatelessWidget {
+  final String title = 'Plenty of Pets';
   const LandingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Align(
-            alignment: Alignment.center,
-            child: FractionallySizedBox(
-              widthFactor: 0.5,
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Placeholder(),
-              ),
-            )),
-        percentHeightContainer(context, 3),
-        const Align(
-            alignment: Alignment.center,
-            child: FractionallySizedBox(
-              widthFactor: 0.8,
-              child: LoginForm(),
-            )),
-        percentHeightContainer(context, 10),
-        const SignupLink(),
-        const Test()
-      ],
-    ));
+        body: SafeArea(
+            child: Stack(
+                children: pawPrintBackground(deviceHeight, deviceWidth) +
+                    [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Stack(children: [
+                              Text(
+                                title,
+                                style: Theme.of(context).textTheme.headline3,
+                              ),
+                              Text(title,
+                                  style: PlentyOfPetsTheme.headlineTextOutline)
+                            ]),
+                          ),
+                          LogoCarousel(),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "We're pawsitive you'll find\n your purrfect friend!",
+                              style: Theme.of(context).textTheme.caption,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          percentHeightContainer(deviceHeight, 3),
+                          const AuthenticationHandler(),
+                        ],
+                      )
+                    ])));
   }
 
-  Container percentHeightContainer(BuildContext context, int percent) {
-    return Container(
-        height: MediaQuery.of(context).size.height * 0.01 * percent);
+  Container percentHeightContainer(double deviceHeight, int percent) {
+    return Container(height: deviceHeight * 0.01 * percent);
   }
-}
 
-class Test extends StatelessWidget {
-  const Test({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var users = FirebaseFirestore.instance.collection('/users');
-
-    return FutureBuilder(
-        future: users.doc('admin').get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Text(
-                "Firestore request failed. Check console output.");
-          }
-
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("Document does not exist");
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            return Text("Email from DB: ${data['email']}");
-          }
-
-          return const Text("loading");
-        });
+  List<Widget> pawPrintBackground(double deviceHeight, double deviceWidth) {
+    return [
+      Positioned(
+          top: deviceHeight * 0.65,
+          left: deviceWidth * 0.1,
+          child: const PawPrint(angle: pi / 4)),
+      Positioned(
+          top: deviceHeight * 0.75,
+          left: deviceWidth * 0.55,
+          child: const PawPrint(
+            angle: -pi / 4.5,
+          )),
+      Positioned(
+          top: deviceHeight * 0.3,
+          left: deviceWidth * 0.9,
+          child: const PawPrint(
+            angle: pi / 8,
+          )),
+      Positioned(
+        top: deviceHeight * 0.55,
+        left: deviceWidth * 0.7,
+        child: const PawPrint(
+          angle: pi / 16,
+        ),
+      ),
+      Positioned(
+        top: deviceHeight * 0.4,
+        left: deviceWidth * 0.05,
+        child: const PawPrint(
+          angle: -pi / 16,
+        ),
+      ),
+      Positioned(
+        top: deviceHeight * 0.9,
+        left: deviceWidth * 0.25,
+        child: const PawPrint(
+          angle: 0,
+        ),
+      ),
+      Positioned(
+        top: deviceHeight * 0.85,
+        left: deviceWidth * 0.8,
+        child: const PawPrint(
+          angle: -pi / 14,
+        ),
+      )
+    ];
   }
 }

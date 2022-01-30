@@ -2,20 +2,51 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class AuthenticationHandler extends StatefulWidget {
+  const AuthenticationHandler({Key? key}) : super(key: key);
 
   @override
-  LoginFormState createState() {
-    return LoginFormState();
+  State<StatefulWidget> createState() {
+    return AuthenticationHandlerState();
   }
 }
 
-class LoginFormState extends State<LoginForm> {
+class AuthenticationHandlerState extends State<AuthenticationHandler> {
   final controller = TextEditingController();
+  bool showLoginForm = false;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget authenticationButtons() {
+    /**
+     * Widget that lets the user choose to signup or login
+     */
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(10),
+            child: OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    showLoginForm = true;
+                  });
+                },
+                child:
+                    Text('login', style: Theme.of(context).textTheme.button))),
+        Padding(
+            padding: const EdgeInsets.all(10),
+            child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, MyApp.homeRoute);
+                },
+                child:
+                    Text('signup', style: Theme.of(context).textTheme.button)))
+      ],
+    );
+  }
+
+  Widget loginForm() {
+    /**
+     * Form that lets the user login.
+     */
     return Form(
         child: Column(
       children: [
@@ -28,18 +59,44 @@ class LoginFormState extends State<LoginForm> {
         Padding(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
+              obscureText: true,
+              enableSuggestions: false,
               decoration: const InputDecoration(
                   border: UnderlineInputBorder(), labelText: 'Password'),
             )),
-        Padding(
-            padding: const EdgeInsets.all(10),
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, MyApp.homeRoute);
-                },
-                child:
-                    Text('Login!', style: Theme.of(context).textTheme.button)))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showLoginForm = false;
+                    });
+                  },
+                  child: const Icon(Icons.arrow_back),
+                )),
+            Flexible(
+                flex: 2,
+                child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, MyApp.homeRoute);
+                    },
+                    child: Text('login',
+                        style: Theme.of(context).textTheme.button))),
+            const Flexible(flex: 1, fit: FlexFit.tight, child: SizedBox())
+          ],
+        )
       ],
     ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+        widthFactor: 0.8,
+        child: showLoginForm ? loginForm() : authenticationButtons());
   }
 }
