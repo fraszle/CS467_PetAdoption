@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:admin_homepage_navigation/add_pet.dart';
+
+class AddPetCardButton extends StatelessWidget {
+  final String buttonText;
+
+  AddPetCardButton({required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      height: 100,
+      child: Card(
+        elevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                },
+                child: Text(buttonText)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EditPetListCardButton extends StatelessWidget {
+  final String buttonText;
+
+  EditPetListCardButton({required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      height: 100,
+      child: Card(
+        elevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                },
+                child: Text(buttonText)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AddNewsCardButton extends StatelessWidget {
+  final String buttonText;
+
+  AddNewsCardButton({required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      height: 100,
+      child: Card(
+        elevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                },
+                child: Text(buttonText)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AccountInfoCardButton extends StatelessWidget {
+  final String buttonText;
+
+  AccountInfoCardButton({required this.buttonText});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      height: 100,
+      child: Card(
+        elevation: 12,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                },
+                child: Text(buttonText)),
+          ],
+        ),
+      ),
+    );
+  }
+}
