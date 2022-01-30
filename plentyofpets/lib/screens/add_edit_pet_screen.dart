@@ -180,12 +180,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                   ElevatedButton(onPressed: () {}, child: const Text('Submit'),),
                 ],
               ),
-              // onChanged: (){
-              //   const snackBar = SnackBar(
-              //     content: Text('The form has been changed'),
-              //   );
-              //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              //},
             ),
           ),
         ),
