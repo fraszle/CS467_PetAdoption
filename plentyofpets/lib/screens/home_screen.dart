@@ -11,6 +11,10 @@ class HomeScreen extends StatelessWidget {
       initialIndex: 1,
       length: 4,
       child: Scaffold(
+        appBar:AppBar(),
+        drawer: const Drawer(
+          child: NavDrawer()
+        ),
         bottomNavigationBar: menu(),
         body: TabBarView(
           children: <Widget>[
