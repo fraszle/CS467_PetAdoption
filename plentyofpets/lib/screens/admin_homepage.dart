@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/admin_homepage_buttons';
+import 'package:plentyofpets/components/admin_homepage_buttons.dart';
 
 class AdminHomepage extends StatelessWidget {
   const AdminHomepage({Key? key}) : super(key: key);
