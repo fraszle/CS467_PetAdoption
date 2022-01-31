@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:admin_homepage_navigation/add_pet.dart';
+import '../screens/add_pet_screen.dart';
+
 
 class AddPetCardButton extends StatelessWidget {
   final String buttonText;
 
-  AddPetCardButton({required this.buttonText});
+  const AddPetCardButton({required this.buttonText, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AddPetCardButton extends StatelessWidget {
 class EditPetListCardButton extends StatelessWidget {
   final String buttonText;
 
-  EditPetListCardButton({required this.buttonText});
+  const EditPetListCardButton({required this.buttonText, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class EditPetListCardButton extends StatelessWidget {
 class AddNewsCardButton extends StatelessWidget {
   final String buttonText;
 
-  AddNewsCardButton({required this.buttonText});
+  const AddNewsCardButton({required this.buttonText, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class AddNewsCardButton extends StatelessWidget {
 class AccountInfoCardButton extends StatelessWidget {
   final String buttonText;
 
-  AccountInfoCardButton({required this.buttonText});
+  const AccountInfoCardButton({required this.buttonText, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
