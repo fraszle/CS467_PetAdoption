@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   static const loginRoute = '/';
   static const homeRoute = '/home';
   static const signupRoute = '/signup';
-  static const adminRoute = '/admin';
+  static const adminRoute = '/admin'; 
 
   const MyApp({Key? key}) : super(key: key);
 
