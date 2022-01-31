@@ -154,7 +154,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
                   FormBuilderTextField(
                     name: 'Pet Name' ,
                     decoration: const InputDecoration(
-                      labelText: 'Enter Pet Name',
+                      labelText: 'Pet Name',
                       labelStyle: TextStyle(
                         fontSize: 15,
                         //fontWeight: FontWeight.bold
@@ -171,7 +171,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       labelStyle: TextStyle(
                         fontSize: 15,
                       ),
-                      //contentPadding: EdgeInsets.symmetric(horizontal: 115),
                     ),
                     maxLines: 3,
                     keyboardType: TextInputType.multiline,
