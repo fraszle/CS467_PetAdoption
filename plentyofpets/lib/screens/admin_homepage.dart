@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/admin_homepage_buttons.dart';
 
 class AdminHomepage extends StatelessWidget {
   const AdminHomepage({Key? key}) : super(key: key);
@@ -6,49 +7,41 @@ class AdminHomepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Home')
-      ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // App logo will go here!
-            Image.network(
-              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg',
-              width: 100,
-              height: 100,
-            ),
-            const Padding(padding: EdgeInsets.all(10)),
-            // Add a pet
-            addPet('Add a pet'),
-            const Padding(padding: EdgeInsets.all(10)),
-            // Edit/Delete pet list
-            addPet('Edit pet list'),
-            const Padding(padding: EdgeInsets.all(10)),
-            // Account information
-            addPet('Account Information'),
-            const Padding(padding: EdgeInsets.all(10)),
-            addPet('Add to News Feed')
-          ],
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Admin Homepage'),
         ),
-      ),
-    );
+        body: SizedBox(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 100,
+              ),
+              // App logo will go here!
+              Image.network(
+                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg',
+                width: 100,
+                height: 100,
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AddPetCardButton(buttonText: 'Add a Pet'),
+                  EditPetListCardButton(buttonText: 'Edit Pet List')
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AddNewsCardButton(buttonText: 'Add News'),
+                  AccountInfoCardButton(buttonText: 'Account Info')
+                ],
+              )
+            ],
+          ),
+        ));
   }
-}
-
-Widget addPet(String buttonText) {
-  return TextButton(
-    style: TextButton.styleFrom(
-      padding: const EdgeInsets.all(16.0),
-      primary: Colors.redAccent,
-      backgroundColor: Colors.brown,
-      textStyle: const TextStyle(fontSize: 20),
-    ),
-    onPressed: () {
-      print('navigate to add a new pet screen');
-    },
-    child: Text(buttonText),
-  );
 }
