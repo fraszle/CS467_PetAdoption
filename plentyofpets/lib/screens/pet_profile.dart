@@ -28,6 +28,14 @@ class PetProfile extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.done) {
               Map<String, dynamic> data =
                   snapshot.data!.data() as Map<String, dynamic>;
+
+              DateTime tsDate = data['timestamp'].toDate();
+              String dateTime = tsDate.month.toString() +
+                  "/" +
+                  tsDate.day.toString() +
+                  "/" +
+                  tsDate.year.toString();
+
               return Container(
                   padding: const EdgeInsets.all(32),
                   child: Column(
@@ -42,7 +50,7 @@ class PetProfile extends StatelessWidget {
                         Text('Availability: ${data['availability']}'),
 
                         // Figure out how to change timestamp type to string date
-                        Text('Date Created: WIP'),
+                        Text('Date Created: $dateTime'),
                         Text('Disposition: How to loop over? WIP')
                       ]));
             }
