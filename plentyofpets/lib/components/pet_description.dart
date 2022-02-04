@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// Class used to display and format pet's info on the pet profile page
 class PetDescription extends StatelessWidget {
   Map<String, dynamic> data = {};
 
@@ -12,15 +14,17 @@ class PetDescription extends StatelessWidget {
       Text('Type: ${data['type']}'),
       Text('Breed: ${data['breed']}'),
       Text('Availability: ${data['availability']}'),
-      Text('Date Created: ${dateConverter(data)}'),
+      Text('Date Created: ${dateConverter(data['timestamp'])}'),
       const Text('Disposition:'),
       dispositionCol(data['disposition']),
     ]);
   }
 }
 
-String dateConverter(Map<String, dynamic> data) {
-  DateTime tsDate = data['timestamp'].toDate();
+// This data converter function takes a timestamp and coverts it to a
+// MM/DD/YY string
+String dateConverter(Timestamp tStamp) {
+  DateTime tsDate = tStamp.toDate();
   String dateTime = tsDate.month.toString() +
       "/" +
       tsDate.day.toString() +
@@ -30,6 +34,7 @@ String dateConverter(Map<String, dynamic> data) {
   return dateTime;
 }
 
+// Used to create a column of Text for each disposition item
 Column dispositionCol(List disposition) {
   List<Widget> dispoList = [];
 

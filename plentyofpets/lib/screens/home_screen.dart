@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/nav_drawer.dart';
-import 'user_profile.dart';
+import '../components/user_profile.dart';
 import '../components/pets_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
         body: TabBarView(
           children: <Widget>[
             Center(
+              // Display a list of pets from the database
               child: PetList(),
             ),
             Center(
@@ -28,6 +29,7 @@ class HomeScreen extends StatelessWidget {
               child: Text("Saved animals page"),
             ),
             Center(
+              // Display the user profile page
               child: UserProfile(),
             ),
           ],

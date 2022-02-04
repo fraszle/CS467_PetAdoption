@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// This class will be used to create and display a list of pets
 class PetList extends StatefulWidget {
   const PetList({Key? key}) : super(key: key);
 

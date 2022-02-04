@@ -6,7 +6,7 @@ import 'package:plentyofpets/screens/add_edit_pet_screen.dart';
 import 'package:plentyofpets/screens/landing_screen.dart';
 import 'package:plentyofpets/screens/pet_profile.dart';
 import 'package:plentyofpets/screens/signup_screen.dart';
-import 'package:plentyofpets/screens/user_profile.dart';
+import 'package:plentyofpets/components/user_profile.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({Key? key}) : super(key: key);

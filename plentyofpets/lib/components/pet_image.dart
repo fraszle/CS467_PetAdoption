@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Class to display the pet's image in the pet profile page
 class PetProfileImage extends StatelessWidget {
   const PetProfileImage({Key? key}) : super(key: key);
 
