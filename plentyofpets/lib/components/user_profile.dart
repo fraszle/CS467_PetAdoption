@@ -29,12 +29,9 @@ class UserProfile extends StatelessWidget {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Name: ${data['firstName']}' +
-                        ' ' +
-                        '${data['lastName']}'),
-                    Text('Location: ${data['location']['city']}' +
-                        ', ' +
-                        '${data['location']['state']}')
+                    Text('Name: ${data['firstName']}' ' ' + data['lastName']),
+                    Text('Location: ${data['location']['city']}' ', ' +
+                        data['location']['state'])
                   ]);
             }
 

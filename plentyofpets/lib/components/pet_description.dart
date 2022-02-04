@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'date_converter.dart';
 
 // Class used to display and format pet's info on the pet profile page
 class PetDescription extends StatelessWidget {
@@ -19,19 +20,6 @@ class PetDescription extends StatelessWidget {
       dispositionCol(data['disposition']),
     ]);
   }
-}
-
-// This data converter function takes a timestamp and coverts it to a
-// MM/DD/YY string
-String dateConverter(Timestamp tStamp) {
-  DateTime tsDate = tStamp.toDate();
-  String dateTime = tsDate.month.toString() +
-      "/" +
-      tsDate.day.toString() +
-      "/" +
-      tsDate.year.toString();
-
-  return dateTime;
 }
 
 // Used to create a column of Text for each disposition item
