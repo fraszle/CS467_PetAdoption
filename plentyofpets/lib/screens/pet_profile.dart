@@ -1,33 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/pet_description.dart';
+import '../components/pet_image.dart';
+import '../components/pet_description.dart';
 
 class PetProfile extends StatelessWidget {
   const PetProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference pets = FirebaseFirestore.instance.collection('pets');
+    const String petID = 'x23u57Kvl6byMHFb5K7P';
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plenty of Pets'),
-      ),
-      body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-            Text('Name:', style: TextStyle(fontSize: 25)),
-            Image(
-              image: NetworkImage(
-                  'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-            ),
-            Text('Age:', style: TextStyle(fontSize: 25)),
-            Text('Type:', style: TextStyle(fontSize: 25)),
-            Text('Breed:', style: TextStyle(fontSize: 25)),
-            Text('Availability:', style: TextStyle(fontSize: 25)),
-            Text('Disposition:', style: TextStyle(fontSize: 25)),
-            Text('Description:', style: TextStyle(fontSize: 25)),
-            Text('Date Created:', style: TextStyle(fontSize: 25)),
-            Text('Organization:', style: TextStyle(fontSize: 25))
-          ])),
-    );
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Pet Profile'),
+        ),
+        body: FutureBuilder<DocumentSnapshot>(
+          future: pets.doc(petID).get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            return snapshotResult(context, snapshot);
+          },
+        ));
   }
+}
+
+Widget snapshotResult(
+    BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+  if (snapshot.hasError) {
+    return Text("Something went wrong: ${snapshot.error}");
+  }
+
+  if (snapshot.hasData && !snapshot.data!.exists) {
+    return const Text("Document does not exist");
+  }
+
+  if (snapshot.connectionState == ConnectionState.done) {
+    Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+          margin: const EdgeInsets.all(8.0), child: const PetProfileImage()),
+      Container(margin: const EdgeInsets.all(10.0), child: PetDescription(data))
+    ]);
+  }
+  return const Text('loading....');
 }
