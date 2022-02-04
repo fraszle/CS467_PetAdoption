@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(),
         drawer: const Drawer(child: NavDrawer()),
         bottomNavigationBar: menu(),
-        body: TabBarView(
+        body: const TabBarView(
           children: <Widget>[
             Center(
               // Display a list of pets from the database
@@ -41,8 +41,8 @@ class HomeScreen extends StatelessWidget {
 
 Widget menu() {
   return Container(
-    color: Color(0xFF3F5AA6),
-    child: TabBar(
+    color: const Color(0xFF3F5AA6),
+    child: const TabBar(
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white70,
       indicatorSize: TabBarIndicatorSize.tab,
