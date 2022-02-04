@@ -32,8 +32,8 @@ class AdminProfile extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Name: ${data['firstName']}' ' ' + data['lastName']),
-                    Text('Location: ${data['location']['city']}' ', ' +
+                    Text('Name: ${data['firstName']} ' + data['lastName']),
+                    Text('Location: ${data['location']['city']}, ' +
                         data['location']['state']),
                     Text('Organization Name: ${data['orgName']}'),
                     Text('Url: ${data['url']}')
