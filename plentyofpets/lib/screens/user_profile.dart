@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatelessWidget {
@@ -5,24 +6,40 @@ class UserProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plenty of Pets'),
-      ),
-      body: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-            Text('First Name:', style: TextStyle(fontSize: 25)),
-            Text('Last Name:', style: TextStyle(fontSize: 25)),
-            Image(
-              image: NetworkImage(
-                  'https://images.unsplash.com/photo-1642698335289-e9073f8afb03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
-            ),
-            Text('Email:', style: TextStyle(fontSize: 25)),
-            Text('Location:', style: TextStyle(fontSize: 25)),
-          ])),
-    );
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    return Container(
+        margin: const EdgeInsets.all(10.0),
+        child: FutureBuilder<DocumentSnapshot>(
+          future: users.doc('GP11dBKUW7C1Xj5OeyHV').get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text("Something went wrong: ${snapshot.error}");
+            }
+
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return const Text("Document does not exist");
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Name: ${data['firstName']}' +
+                        ' ' +
+                        '${data['lastName']}'),
+                    Text('Location: ${data['location']['city']}' +
+                        ', ' +
+                        '${data['location']['state']}')
+                  ]);
+            }
+
+            return const Text("loading...");
+          },
+        ));
   }
 }
