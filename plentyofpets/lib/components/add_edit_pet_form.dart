@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:plentyofpets/screens/confirm_pet_screen.dart';
+import 'package:plentyofpets/lib/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -233,7 +233,6 @@ class _AddPetFormState extends State<AddPetForm> {
                     }, 
                     child: const Text('Submit Form')
                   ),
-                  ElevatedButton(onPressed: onPressed, child: const Text('id'))
                 ],
               ),
             ),
