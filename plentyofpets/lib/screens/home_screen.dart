@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/nav_drawer.dart';
 import '../components/user_profile.dart';
