@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 //import '../screens/add_pet_screen.dart';
 import '../screens/add_edit_pet_screen.dart';
 
+import '../screens/admin_pet_list_screen.dart';
+import '../screens/add_news_screen.dart';
+
+import '../screens/admin_profile.dart';
+
 
 class AddPetCardButton extends StatelessWidget {
   final String buttonText;
 
-  const AddPetCardButton({required this.buttonText, Key? key}) : super(key: key);
+  const AddPetCardButton({required this.buttonText, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +31,8 @@ class AddPetCardButton extends StatelessWidget {
           children: <Widget>[
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AddPetScreen()));
                 },
                 child: Text(buttonText)),
           ],
@@ -39,7 +45,8 @@ class AddPetCardButton extends StatelessWidget {
 class EditPetListCardButton extends StatelessWidget {
   final String buttonText;
 
-  const EditPetListCardButton({required this.buttonText, Key? key}) : super(key: key);
+  const EditPetListCardButton({required this.buttonText, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +65,8 @@ class EditPetListCardButton extends StatelessWidget {
           children: <Widget>[
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AdminPetList()));
                 },
                 child: Text(buttonText)),
           ],
@@ -72,7 +79,8 @@ class EditPetListCardButton extends StatelessWidget {
 class AddNewsCardButton extends StatelessWidget {
   final String buttonText;
 
-  const AddNewsCardButton({required this.buttonText, Key? key}) : super(key: key);
+  const AddNewsCardButton({required this.buttonText, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +100,7 @@ class AddNewsCardButton extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                      MaterialPageRoute(builder: (context) => const AddNewsScreen()));
                 },
                 child: Text(buttonText)),
           ],
@@ -102,10 +110,12 @@ class AddNewsCardButton extends StatelessWidget {
   }
 }
 
-class AccountInfoCardButton extends StatelessWidget {
+class AccountProfileCardButton extends StatelessWidget {
   final String buttonText;
 
-  const AccountInfoCardButton({required this.buttonText, Key? key}) : super(key: key);
+
+  const AccountProfileCardButton({required this.buttonText, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +135,7 @@ class AccountInfoCardButton extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                      MaterialPageRoute(builder: (context) => const AdminProfile()));
                 },
                 child: Text(buttonText)),
           ],

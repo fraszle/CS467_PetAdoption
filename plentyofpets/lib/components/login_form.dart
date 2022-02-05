@@ -8,7 +8,7 @@ class AuthenticationHandler extends StatefulWidget {
   const AuthenticationHandler({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
+  State<AuthenticationHandler> createState() {
     return AuthenticationHandlerState();
   }
 }
@@ -143,20 +143,28 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "user-not-found":
-          print('No user found for that email.');
-          break;
         case "wrong-password":
-          print('Wrong password provided for that user.');
-          break;
         case "invalid-email":
-          print('Invalid email address provided.');
+          showLoginErrorDialog('Invalid email address or password provided.');
           break;
         default:
-          print('An unknown error occured.');
+          showLoginErrorDialog('An unknown error occured. Please try again.');
       }
       return;
     }
 
     Navigator.pushNamed(context, MyApp.homeRoute);
+  }
+
+  void showLoginErrorDialog(String errorMsg) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: const Text(
+                "Error Logging In",
+                textAlign: TextAlign.center,
+              ),
+              content: Text(errorMsg),
+            ));
   }
 }

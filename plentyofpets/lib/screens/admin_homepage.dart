@@ -37,7 +37,7 @@ class AdminHomepage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AddNewsCardButton(buttonText: 'Add News'),
-                  AccountInfoCardButton(buttonText: 'Account Info')
+                  AccountProfileCardButton(buttonText: 'Account Info')
                 ],
               )
             ],
