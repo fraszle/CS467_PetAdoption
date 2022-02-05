@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class AddPetScreen extends StatelessWidget {
-  const AddPetScreen({Key? key}) : super(key: key);
+// Displays the entire catalog of animals an organization has
+class AdminPetList extends StatelessWidget {
+  const AdminPetList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a Pet'),
+        title: const Text('Admin Pet List'),
       ),
       body: Center(
         child: ElevatedButton(

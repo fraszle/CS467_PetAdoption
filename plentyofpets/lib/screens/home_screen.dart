@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/nav_drawer.dart';
 import '../components/user_profile.dart';
 import '../components/pets_list.dart';
+import '../screens/saved_pet_list_screen.dart';
+import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,10 +25,12 @@ class HomeScreen extends StatelessWidget {
               child: PetList(),
             ),
             Center(
-              child: Text("News Feed page"),
+              // Stretch goal
+              child: NewsFeed(),
             ),
+            // Users saved pets list
             Center(
-              child: Text("Saved animals page"),
+              child: SavedPetList(),
             ),
             Center(
               // Display the user profile page
@@ -46,7 +50,7 @@ Widget menu() {
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white70,
       indicatorSize: TabBarIndicatorSize.tab,
-      indicatorPadding: EdgeInsets.all(5.0),
+      indicatorPadding: const EdgeInsets.all(5.0),
       indicatorColor: Colors.blueGrey,
       tabs: [
         Tab(
