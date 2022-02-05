@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:plentyofpets/lib/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:plentyofpets/services/database.dart';
 
 class AddPetForm extends StatefulWidget {
   const AddPetForm({Key? key}) : super(key: key);
@@ -62,7 +62,6 @@ class _AddPetFormState extends State<AddPetForm> {
                       border: OutlineInputBorder() 
                     ),
                     textInputAction: TextInputAction.next,
-                    //autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.required(context, 
                       errorText: 'required')
                   ),
@@ -201,37 +200,32 @@ class _AddPetFormState extends State<AddPetForm> {
                 ),
 
                   ElevatedButton(
-                    onPressed: () {
-                      //petType = _petFormKey.currentState!.fields['petType']!.value ?? '';
+                    onPressed: () async{
                       _petFormKey.currentState!.save();
                       petFormData = _petFormKey.currentState!.value;
-                      
-                      final newPet = FirebaseFirestore.instance.collection('pets');
-                      newPet.add({
-                          'type': petFormData['PetType'],
-                          'availability': petFormData['Availability'],
-                          'disposition': petFormData['Disposition'],
-                          'breed': petFormData['Breed'],
-                          'name': petFormData['Pet Name'],
-                          'description': petFormData['Description'],
-                          'timestamp': FieldValue.serverTimestamp(),
-                          '?':newPet.id
-                      })
-                      // FirebaseFirestore.instance.collection('pets').doc(newPet.id).
-                      //   collection('petDetail').add({
-                      //     'description': petFormData['Description'],
-                      //     'name': petFormData['Pet Name'],
-                      //     'admin': {'AdminID':'To', 'Org': 'be', 'web':'url'},
-                      //     'pic': ['to', 'be', 'added'],
-                      //     'news': 'to be added',
-
-                      // })
-
-                        .then((valueD)=>print(newPet.id));
-                          // final newPetProfile = newPet.documentID
-                          //   FirebaseFirestore.instance.collection('pets').doc('$newPetProfile') 
-                    }, 
+                      if (_petFormKey.currentState!.validate()){
+                        await DatabaseService().addPet(
+                        petFormData['petType'],
+                        petFormData['Availability'],
+                        petFormData['Disposition'],
+                        petFormData['Breed'],
+                        petFormData['Pet Name'],
+                        petFormData['Description'],
+                        );
+                      }
+                      // onPressed: () {
+                      //   _petFormKey.currentState!.save();
+                      //   petFormData = _petFormKey.currentState!.value;
+                      //   FirebaseFirestore.instance.collection("pets").add(
+                      //     {
+                      //       "name" : "john",
+                      //     }
+                      //   ).then((value){
+                      //     print(value.id);
+                      //   });
+                         },
                     child: const Text('Submit Form')
+
                   ),
                 ],
               ),
