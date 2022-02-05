@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:plentyofpets/services/database.dart';
+import 'package:plentyofpets/services/pet_database.dart';
+import 'package:plentyofpets/screens/admin_homepage.dart';
 
 class AddPetForm extends StatefulWidget {
   const AddPetForm({Key? key}) : super(key: key);
@@ -25,7 +24,7 @@ class _AddPetFormState extends State<AddPetForm> {
         Image.asset('assets/images/plentyOfPetsPic.png',
           height: 60,
           width: 60,
-          ),
+        ),
         FormBuilder(
           key: _petFormKey,
           child:
@@ -100,28 +99,6 @@ class _AddPetFormState extends State<AddPetForm> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
                   const SizedBox(height: 10),
-                  
-                  //potential stretch
-                  // FormBuilderChoiceChip(
-                  //   name: 'Age',
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Age:',
-                  //     labelStyle: TextStyle(
-                  //       color: Colors.black,
-                  //       fontSize: 20,
-                  //       fontWeight: FontWeight.bold
-                  //     ),
-                  //     contentPadding: EdgeInsets.symmetric(horizontal: 50),
-                  //   ),    
-                  //   options: const [
-                  //     FormBuilderFieldOption(value:'Baby', child: Text('Baby')),
-                  //     FormBuilderFieldOption(value: 'Young', child: Text('Young')),
-                  //     FormBuilderFieldOption(value: 'Mature', child: Text('Mature')),
-                  //     FormBuilderFieldOption(value: 'Senior', child: Text('Senior')),
-                  //   ],
-                  //   validator: FormBuilderValidators.required(context, errorText: 'required')
-                  // ),
-                  // const SizedBox(height: 10),
 
                   FormBuilderDropdown(
                     name: 'Availability', 
@@ -130,7 +107,6 @@ class _AddPetFormState extends State<AddPetForm> {
                       labelStyle: TextStyle(
                         fontSize: 15,
                       ),
-                      //contentPadding: EdgeInsets.symmetric(horizontal: 110),
                     ),   
                     allowClear: true,
                     items: availableOptions.map((availability)=> DropdownMenuItem(
@@ -157,29 +133,6 @@ class _AddPetFormState extends State<AddPetForm> {
                     ],
                   ),
                   const SizedBox(height: 10),
-
-                  //potential stretch
-                  // const Text('Location'),
-                  // FormBuilderTextField(
-                  //   name: 'State' ,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'State',
-                  //     border: OutlineInputBorder()
-                  //   ),
-                  //   textInputAction: TextInputAction.next,
-                  //   validator: FormBuilderValidators.required(context, errorText: 'required')
-                  //   ),
-                  // //const SizedBox(height: 20),
-                  // FormBuilderTextField(
-                  //   name: 'Zip' ,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Zip',
-                  //     border: OutlineInputBorder()
-                  //   ),
-                  //   textInputAction: TextInputAction.next,
-                  //   validator: FormBuilderValidators.required(context, errorText: 'required')
-                  // ),
-                  // //const SizedBox(height: 20),
 
                   FormBuilderTextField(
                     name: 'Description' ,
@@ -210,14 +163,16 @@ class _AddPetFormState extends State<AddPetForm> {
                         petFormData['Disposition'],
                         petFormData['Breed'],
                         petFormData['Pet Name'],
-                        petFormData['Description'],
                         );
-                        DatabaseService().addPetDetails(
-                        id,
-                        petFormData['Description'],
+                        DatabaseService().addPetDetails( 
+                          id, 
+                          petFormData['Description'],
+                          petFormData['Pet Name'],
                         );
+                        Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const AdminHomepage()));
                       }
-                         },
+                    },
                     child: const Text('Submit Form')
                   ),
                 ],
