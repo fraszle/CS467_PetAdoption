@@ -9,33 +9,35 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 1,
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(),
-        drawer: const Drawer(child: NavDrawer()),
-        bottomNavigationBar: menu(),
-        body: const TabBarView(
-          children: <Widget>[
-            Center(
-              // Display a list of pets from the database
-              child: PetList(),
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: DefaultTabController(
+          initialIndex: 1,
+          length: 4,
+          child: Scaffold(
+            appBar: AppBar(),
+            drawer: const Drawer(child: NavDrawer()),
+            bottomNavigationBar: menu(),
+            body: const TabBarView(
+              children: <Widget>[
+                Center(
+                  // Display a list of pets from the database
+                  child: PetList(),
+                ),
+                Center(
+                  child: Text("News Feed page"),
+                ),
+                Center(
+                  child: Text("Saved animals page"),
+                ),
+                Center(
+                  // Display the user profile page
+                  child: UserProfile(),
+                ),
+              ],
             ),
-            Center(
-              child: Text("News Feed page"),
-            ),
-            Center(
-              child: Text("Saved animals page"),
-            ),
-            Center(
-              // Display the user profile page
-              child: UserProfile(),
-            ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
 
