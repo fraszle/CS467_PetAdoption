@@ -97,7 +97,21 @@ class NavDrawer extends StatelessWidget {
         leading: const Icon(Icons.arrow_right),
         title: const Text('Signout'),
         onTap: () async {
-          await FirebaseAuth.instance.signOut();
+          try {
+            await FirebaseAuth.instance.signOut();
+          } catch (e) {
+            showDialog(
+                context: context,
+                builder: (_) => const AlertDialog(
+                      title: Text(
+                        "Error Logging Out",
+                        textAlign: TextAlign.center,
+                      ),
+                      content: Text(
+                          'Error while logging out. Please try again in a few minutes.'),
+                    ));
+            return;
+          }
           Navigator.pushNamed(context, MyApp.loginRoute);
         },
       )
