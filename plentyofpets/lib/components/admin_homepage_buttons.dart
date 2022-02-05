@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import '../screens/add_pet_screen.dart';
+
 import '../screens/admin_pet_list_screen.dart';
 import '../screens/add_news_screen.dart';
+
+import '../screens/admin_profile.dart';
+
 
 class AddPetCardButton extends StatelessWidget {
   final String buttonText;
@@ -105,10 +109,11 @@ class AddNewsCardButton extends StatelessWidget {
   }
 }
 
-class AccountInfoCardButton extends StatelessWidget {
+class AccountProfileCardButton extends StatelessWidget {
   final String buttonText;
 
-  const AccountInfoCardButton({required this.buttonText, Key? key})
+
+  const AccountProfileCardButton({required this.buttonText, Key? key})
       : super(key: key);
 
   @override
@@ -129,7 +134,7 @@ class AccountInfoCardButton extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AddPetScreen()));
+                      MaterialPageRoute(builder: (context) => const AdminProfile()));
                 },
                 child: Text(buttonText)),
           ],
