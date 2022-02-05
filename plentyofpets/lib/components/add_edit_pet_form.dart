@@ -204,7 +204,7 @@ class _AddPetFormState extends State<AddPetForm> {
                       _petFormKey.currentState!.save();
                       petFormData = _petFormKey.currentState!.value;
                       if (_petFormKey.currentState!.validate()){
-                        await DatabaseService().addPet(
+                        var id = await DatabaseService().addPet(
                         petFormData['petType'],
                         petFormData['Availability'],
                         petFormData['Disposition'],
@@ -212,20 +212,13 @@ class _AddPetFormState extends State<AddPetForm> {
                         petFormData['Pet Name'],
                         petFormData['Description'],
                         );
+                        DatabaseService().addPetDetails(
+                        id,
+                        petFormData['Description'],
+                        );
                       }
-                      // onPressed: () {
-                      //   _petFormKey.currentState!.save();
-                      //   petFormData = _petFormKey.currentState!.value;
-                      //   FirebaseFirestore.instance.collection("pets").add(
-                      //     {
-                      //       "name" : "john",
-                      //     }
-                      //   ).then((value){
-                      //     print(value.id);
-                      //   });
                          },
                     child: const Text('Submit Form')
-
                   ),
                 ],
               ),
