@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/nav_drawer.dart';
 import '../components/user_profile.dart';
 import '../components/pets_list.dart';
+import '../screens/saved_pet_list_screen.dart';
+import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,32 +13,26 @@ class HomeScreen extends StatelessWidget {
     return WillPopScope(
         onWillPop: () async => false,
         child: DefaultTabController(
-          initialIndex: 1,
-          length: 4,
-          child: Scaffold(
-            appBar: AppBar(),
-            drawer: const Drawer(child: NavDrawer()),
-            bottomNavigationBar: menu(),
-            body: const TabBarView(
-              children: <Widget>[
-                Center(
-                  // Display a list of pets from the database
-                  child: PetList(),
-                ),
-                Center(
-                  child: Text("News Feed page"),
-                ),
-                Center(
-                  child: Text("Saved animals page"),
-                ),
-                Center(
-                  // Display the user profile page
-                  child: UserProfile(),
-                ),
-              ],
-            ),
-          ),
-        ));
+            initialIndex: 1,
+            length: 4,
+            child: Scaffold(
+                appBar: AppBar(),
+                drawer: const Drawer(child: NavDrawer()),
+                bottomNavigationBar: menu(),
+                body: const TabBarView(children: <Widget>[
+                  Center(
+                    // Stretch goal
+                    child: NewsFeed(),
+                  ),
+                  // Users saved pets list
+                  Center(
+                    child: SavedPetList(),
+                  ),
+                  Center(
+                    // Display the user profile page
+                    child: UserProfile(),
+                  )
+                ]))));
   }
 }
 
@@ -48,7 +43,7 @@ Widget menu() {
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white70,
       indicatorSize: TabBarIndicatorSize.tab,
-      indicatorPadding: EdgeInsets.all(5.0),
+      indicatorPadding: const EdgeInsets.all(5.0),
       indicatorColor: Colors.blueGrey,
       tabs: [
         Tab(

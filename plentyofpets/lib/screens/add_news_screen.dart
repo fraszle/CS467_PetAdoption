@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AddPetScreen extends StatelessWidget {
-  const AddPetScreen({Key? key}) : super(key: key);
+class AddNewsScreen extends StatelessWidget {
+  const AddNewsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a Pet'),
+        title: const Text('Add a News piece'),
       ),
       body: Center(
         child: ElevatedButton(
