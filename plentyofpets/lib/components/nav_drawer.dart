@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/main.dart';
 
 import 'package:plentyofpets/screens/admin_homepage.dart';
 import 'package:plentyofpets/screens/add_edit_pet_screen.dart';
@@ -91,7 +92,30 @@ class NavDrawer extends StatelessWidget {
             ),
           );
         },
-      ), // ListTile(
+      ),
+      ListTile(
+        leading: const Icon(Icons.arrow_right),
+        title: const Text('Signout'),
+        onTap: () async {
+          try {
+            await FirebaseAuth.instance.signOut();
+          } catch (e) {
+            showDialog(
+                context: context,
+                builder: (_) => const AlertDialog(
+                      title: Text(
+                        "Error Logging Out",
+                        textAlign: TextAlign.center,
+                      ),
+                      content: Text(
+                          'Error while logging out. Please try again in a few minutes.'),
+                    ));
+            return;
+          }
+          Navigator.pushNamed(context, MyApp.loginRoute);
+        },
+      )
+      // ListTile(
       //   leading: const Icon(Icons.arrow_right),
       //   title: const Text('Add pet screen'),
       //   onTap: () {
