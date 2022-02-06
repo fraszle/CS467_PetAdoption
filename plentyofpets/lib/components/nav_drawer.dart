@@ -76,7 +76,7 @@ class NavDrawer extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (context) => const PetProfile(),
+              builder: (context) => PetProfile('x23u57Kvl6byMHFb5K7P'),
             ),
           );
         },
