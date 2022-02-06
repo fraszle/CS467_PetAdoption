@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/admin_homepage_buttons.dart';
+import '../components/decorations.dart';
 
 class AdminHomepage extends StatelessWidget {
   const AdminHomepage({Key? key}) : super(key: key);
@@ -18,11 +19,7 @@ class AdminHomepage extends StatelessWidget {
                 height: 100,
               ),
               // App logo will go here!
-              Image.network(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl-2.jpg',
-                width: 100,
-                height: 100,
-              ),
+              const PawPrint(angle: 0),
               const SizedBox(
                 height: 100,
               ),

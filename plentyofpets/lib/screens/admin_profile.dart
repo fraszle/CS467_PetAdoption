@@ -9,9 +9,16 @@ class AdminProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: FutureBuilder<DocumentSnapshot>(
+    return Scaffold(
+      appBar: AppBar(centerTitle: true, title: const Text('Admin Profile')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('going to edit profile screen...');
+        },
+        child: const Icon(Icons.edit),
+      ),
+      body: Container(
+          child: FutureBuilder<DocumentSnapshot>(
         future: users.doc('JimXAqx3qgxONKm6J4Cg').get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -32,17 +39,107 @@ class AdminProfile extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Name: ${data['firstName']} ' + data['lastName']),
-                    Text('Location: ${data['location']['city']}, ' +
-                        data['location']['state']),
-                    Text('Organization Name: ${data['orgName']}'),
-                    Text('Url: ${data['url']}')
+                    adminName(data['firstName'], data['lastName']),
+                    location(
+                        data['location']['city'], data['location']['state']),
+                    organization(data['orgName']),
+                    orgUrl(data['url']),
                   ]),
             );
           }
 
-          return const Text("loading...");
+          return const Text("loading profile...");
         },
-      ));
+      )),
+    );
   }
+
+  // Return profile section for Admin name
+  Widget adminName(String firstName, String lastName) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'First Name:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(firstName)
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Last Name:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(lastName)
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget location(String city, String state) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Location:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(city + ', ' + state),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget organization(String organizationName) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Organization Name:',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(organizationName),
+              ],
+            )
+          ],
+        ));
+  }
+
+  Widget orgUrl(String url) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Url:',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(url),
+              ],
+            )
+          ],
+        ));
+  }
+
+  // Floating action button that triggers 'Edit Profile' screen
+  //FloatingActionButton editProfileFloatingButton
 }
