@@ -5,13 +5,13 @@ import '../components/pet_image.dart';
 import '../components/pet_description.dart';
 
 class PetProfile extends StatelessWidget {
-  const PetProfile({Key? key}) : super(key: key);
+  PetProfile(this.petID, {Key? key}) : super(key: key);
+
+  String petID;
 
   @override
   Widget build(BuildContext context) {
     CollectionReference pets = FirebaseFirestore.instance.collection('pets');
-    const String petID = 'x23u57Kvl6byMHFb5K7P';
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

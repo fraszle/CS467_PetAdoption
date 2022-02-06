@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'date_converter.dart';
 
@@ -11,7 +10,7 @@ class PetDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('${data['name']}', style: Theme.of(context).textTheme.headline5),
+      Text(data['name'], style: Theme.of(context).textTheme.headline5),
       Text('Type: ${data['type']}'),
       Text('Breed: ${data['breed']}'),
       Text('Availability: ${data['availability']}'),

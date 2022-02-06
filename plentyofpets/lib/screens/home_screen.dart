@@ -49,7 +49,7 @@ Widget menu() {
       labelColor: Colors.white,
       unselectedLabelColor: Colors.white70,
       indicatorSize: TabBarIndicatorSize.tab,
-      indicatorPadding: const EdgeInsets.all(5.0),
+      indicatorPadding: EdgeInsets.all(5.0),
       indicatorColor: Colors.blueGrey,
       tabs: [
         Tab(
