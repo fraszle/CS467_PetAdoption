@@ -16,7 +16,6 @@ class AuthenticationHandler extends StatefulWidget {
 class AuthenticationHandlerState extends State<AuthenticationHandler> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  final controller = TextEditingController();
 
   bool showLoginForm = false;
   String? email;
@@ -42,10 +41,10 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
             padding: const EdgeInsets.all(10),
             child: OutlinedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, MyApp.homeRoute);
+                  Navigator.pushNamed(context, MyApp.signupRoute);
                 },
                 child:
-                    Text('signup', style: Theme.of(context).textTheme.button)))
+                    Text('sign up', style: Theme.of(context).textTheme.button)))
       ],
     );
   }

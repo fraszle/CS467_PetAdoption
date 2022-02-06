@@ -18,37 +18,40 @@ class LandingScreen extends StatelessWidget {
 
     return Scaffold(
         body: SafeArea(
-            child: Stack(
-                children: pawPrintBackground(deviceHeight, deviceWidth) +
-                    [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Stack(children: [
-                              Text(
-                                title,
-                                style: Theme.of(context).textTheme.headline3,
-                              ),
-                              Text(title,
-                                  style: PlentyOfPetsTheme.headlineTextOutline)
-                            ]),
-                          ),
-                          LogoCarousel(),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "We're pawsitive you'll find\n your purrfect friend!",
-                              style: Theme.of(context).textTheme.caption,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          percentHeightContainer(deviceHeight, 3),
-                          const AuthenticationHandler(),
-                        ],
-                      )
-                    ])));
+            child: ListView(children: [
+      Stack(
+          clipBehavior: Clip.none,
+          children: pawPrintBackground(deviceHeight, deviceWidth) +
+              [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Stack(children: [
+                        Text(
+                          title,
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                        Text(title,
+                            style: PlentyOfPetsTheme.headlineTextOutline)
+                      ]),
+                    ),
+                    LogoCarousel(),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "We're pawsitive you'll find\n your purrfect friend!",
+                        style: Theme.of(context).textTheme.caption,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    percentHeightContainer(deviceHeight, 3),
+                    const AuthenticationHandler(),
+                  ],
+                )
+              ])
+    ])));
   }
 
   Container percentHeightContainer(double deviceHeight, int percent) {
