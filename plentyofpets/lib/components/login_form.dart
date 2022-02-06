@@ -44,7 +44,7 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
                   Navigator.pushNamed(context, MyApp.signupRoute);
                 },
                 child:
-                    Text('signup', style: Theme.of(context).textTheme.button)))
+                    Text('sign up', style: Theme.of(context).textTheme.button)))
       ],
     );
   }

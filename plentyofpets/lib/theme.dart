@@ -6,7 +6,10 @@ class PlentyOfPetsTheme {
   static const _standardColor = Colors.black;
   static final _stylizedColor = Colors.brown.shade200;
 
-  static const formErrorText = TextStyle(fontSize: 18, color: Colors.red);
+  static const formErrorText = TextStyle(
+    fontSize: 18,
+    color: Colors.red,
+  );
   static const paragraphText = TextStyle(
       fontSize: _paragraphFontSize,
       fontWeight: _paragraphFontWeight,

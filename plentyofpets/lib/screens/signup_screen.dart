@@ -8,10 +8,7 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
         body: SafeArea(
-      child: Align(
-          alignment: Alignment.center,
-          child: FractionallySizedBox(
-              widthFactor: 0.8, child: RegistrationForm())),
+      child: Align(alignment: Alignment.center, child: RegistrationForm()),
     ));
   }
 }
