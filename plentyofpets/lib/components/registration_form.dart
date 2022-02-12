@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/theme.dart';
+import 'package:plentyofpets/utils/firebase_auth_util.dart';
+import 'package:plentyofpets/utils/user_model.dart';
 
 import '../main.dart';
 
@@ -14,16 +16,13 @@ class RegistrationForm extends StatefulWidget {
 
 class RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
-  final double fieldPadding = 5;
-  final String titleText = 'Registration';
+  static const double fieldPadding = 5;
+  static const String titleText = 'Registration';
 
-  String? email;
+  NewUserBuilder builder = NewUserBuilder();
+
   String? emailConfirmation;
-  String? password;
   String? passwordConfirmation;
-  bool organization = false;
-  String? organizationName;
-  String? organizationUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -36,33 +35,36 @@ class RegistrationFormState extends State<RegistrationForm> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: organization ? adminForm() : regularForm())))
+                  children:
+                      builder.organization ? adminForm() : regularForm())))
     ]);
   }
 
   List<Widget> regularForm() {
-    return emailFields() +
+    return nameFields() +
+        locationFields() +
+        emailFields() +
         passwordFields() +
         organizationSwitch() +
         submitButton();
   }
 
   List<Widget> adminForm() {
-    return emailFields() +
+    return nameFields() +
+        locationFields() +
+        emailFields() +
         passwordFields() +
         organizationSwitch() +
         adminFields() +
         submitButton();
   }
 
+  /// Returns the title for the Registration page
   Widget title(BuildContext context) {
-    /**
-     * Returns the title for the Registration page
-     */
     return Align(
         alignment: Alignment.center,
         child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
             child: Stack(children: [
               Text(
                 titleText,
@@ -75,55 +77,70 @@ class RegistrationFormState extends State<RegistrationForm> {
             ])));
   }
 
-  List<Widget> emailFields() {
-    /**
-     * Returns the email and email confirmation form fields.
-     */
+  /// Returns the TextFormFields for First Name and Last Name
+  List<Widget> nameFields() {
     return [
-      Padding(
-          padding: EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Email Address'),
-            onSaved: (value) => email = value,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an email address.';
-              }
-              return null;
-            },
-          )),
-      Padding(
-          padding: EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Confirm Your Email Address'),
-            onSaved: (value) => emailConfirmation = value,
-            validator: (value) {
-              if (value != email) {
-                return 'Emails do not match.';
-              }
-              return null;
-            },
-          ))
+      standardTextFormField('First Name', (value) => builder.firstName = value,
+          (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a First Name.';
+        }
+      }),
+      standardTextFormField('Last Name', (value) => builder.lastName = value,
+          (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a Last Name.';
+        }
+      })
     ];
   }
 
+  /// Returns the city, state, and zip code form fields
+  List<Widget> locationFields() {
+    return [
+      standardTextFormField('City', (value) => builder.city = value, (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a City.';
+        }
+      }),
+      standardTextFormField('State', (value) => builder.state = value, (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a State.';
+        }
+      }),
+      standardTextFormField('Zip Code', (value) => builder.zipCode = value,
+          (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a Zip Code.';
+        }
+      })
+    ];
+  }
+
+  /// Returns the email and email confirmation form fields.
+  List<Widget> emailFields() {
+    return [
+      standardTextFormField('Email Address', (value) => builder.email = value,
+          (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter an email address.';
+        }
+      }),
+      standardTextFormField(
+          'Confirm Your Email Address', (value) => emailConfirmation = value,
+          (value) {
+        if (value != builder.email) {
+          return 'Emails do not match.';
+        }
+      }),
+    ];
+  }
+
+  /// Returns the password and password confirmation form fields
   List<Widget> passwordFields() {
-    /**
-     * Returns the password and password confirmation form fields
-     */
     return [
       Padding(
-          padding: EdgeInsets.all(fieldPadding),
+          padding: const EdgeInsets.all(fieldPadding),
           child: TextFormField(
             obscureText: true,
             enableSuggestions: false,
@@ -133,16 +150,20 @@ class RegistrationFormState extends State<RegistrationForm> {
                 errorStyle: PlentyOfPetsTheme.formErrorText,
                 border: UnderlineInputBorder(),
                 labelText: 'Password'),
-            onSaved: (value) => password = value,
+            onSaved: (value) => builder.password = value,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a password.';
+              }
+              // This guards against a weak-password exception from Firebase
+              if (value.length < 6) {
+                return 'Password must be at least 6 characters long.';
               }
               return null;
             },
           )),
       Padding(
-          padding: EdgeInsets.all(fieldPadding),
+          padding: const EdgeInsets.all(fieldPadding),
           child: TextFormField(
             obscureText: true,
             enableSuggestions: false,
@@ -154,7 +175,7 @@ class RegistrationFormState extends State<RegistrationForm> {
                 labelText: 'Confirm Your Password'),
             onSaved: (value) => passwordConfirmation = value,
             validator: (value) {
-              if (value != password) {
+              if (value != builder.password) {
                 return 'Passwords do not match.';
               }
               return null;
@@ -163,77 +184,55 @@ class RegistrationFormState extends State<RegistrationForm> {
     ];
   }
 
+  /// Returns a SwitchListTile for users to indicate if they are representing
+  /// and organization or not.
   List<Widget> organizationSwitch() {
-    /**
-     * Returns a SwitchListTile for users to indicate if they are representing
-     * and organization or not.
-     */
     return [
       Padding(
-          padding: EdgeInsets.all(fieldPadding),
+          padding: const EdgeInsets.all(fieldPadding),
           child: SwitchListTile(
               title: const Text('Are you representing a pet shelter?'),
-              value: organization,
+              value: builder.organization,
               onChanged: (value) {
                 setState(() {
-                  organization = value;
+                  builder.organization = value;
+                  if (!value) {
+                    builder
+                      ..organizationName = null
+                      ..organizationUrl = null;
+                  }
                 });
               }))
     ];
   }
 
+  /// Returns a list of Form Fields only used for registering admins.
   List<Widget> adminFields() {
-    /**
-     * Returns a list of Form Fields only used for registering admins.
-     */
     return [
-      Padding(
-          padding: EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Shelter Name'),
-            onSaved: (value) => organizationName = value,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a shelter name.';
-              }
-              return null;
-            },
-          )),
-      Padding(
-          padding: EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Shelter Website'),
-            onSaved: (value) => organizationUrl = value,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a website.';
-              }
-              if (!Uri.parse(value).isAbsolute) {
-                return 'Please enter a valid URL.';
-              }
-              return null;
-            },
-          ))
+      standardTextFormField(
+          'Shelter Name', (value) => builder.organizationName = value, (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a shelter name.';
+        }
+      }),
+      standardTextFormField(
+          'Shelter Website', (value) => builder.organizationUrl = value,
+          (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a website.';
+        }
+        if (!Uri.parse(value).isAbsolute) {
+          return 'Please enter a valid URL.';
+        }
+      }),
     ];
   }
 
+  /// Returns the submit button for the form.
   List<Widget> submitButton() {
-    /**
-     * Returns the submit button for the form.
-     */
     return [
       Padding(
-          padding: EdgeInsets.all(fieldPadding),
+          padding: const EdgeInsets.all(fieldPadding),
           child: OutlinedButton(
               onPressed: register,
               child:
@@ -241,17 +240,35 @@ class RegistrationFormState extends State<RegistrationForm> {
     ];
   }
 
-  void register() {
-    /**
-     * Validates the registration form and creates the user in Firebase.
-     */
+  /// Validates the registration form and creates the user in Firebase.
+  void register() async {
+    // Save form values to builder and validate
     _formKey.currentState!.save();
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // TODO: Add calls to Firebase Auth and Firestore to create user
+    // Register & Sign In User
+    if (!await FirebaseAuthUtil.register(context, builder.build())) {
+      return;
+    }
 
     Navigator.pushNamed(context, MyApp.homeRoute);
+  }
+
+  Widget standardTextFormField(String labelText,
+      void Function(String?)? onSaved, String? Function(String?)? validator) {
+    return Padding(
+        padding: const EdgeInsets.all(fieldPadding),
+        child: TextFormField(
+          decoration: InputDecoration(
+              isDense: true,
+              contentPadding: const EdgeInsets.all(0),
+              errorStyle: PlentyOfPetsTheme.formErrorText,
+              border: const UnderlineInputBorder(),
+              labelText: labelText),
+          onSaved: onSaved,
+          validator: validator,
+        ));
   }
 }

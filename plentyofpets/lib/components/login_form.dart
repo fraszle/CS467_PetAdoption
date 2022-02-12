@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/theme.dart';
+import 'package:plentyofpets/utils/firebase_auth_util.dart';
 
 import '../main.dart';
 
@@ -137,33 +138,11 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
     }
 
     _formKey.currentState!.save();
-    try {
-      await auth.signInWithEmailAndPassword(email: email!, password: password!);
-    } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case "user-not-found":
-        case "wrong-password":
-        case "invalid-email":
-          showLoginErrorDialog('Invalid email address or password provided.');
-          break;
-        default:
-          showLoginErrorDialog('An unknown error occured. Please try again.');
-      }
+    if (!await FirebaseAuthUtil.signIn(context, email!, password!)) {
       return;
     }
 
-    Navigator.pushNamed(context, MyApp.homeRoute);
-  }
-
-  void showLoginErrorDialog(String errorMsg) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: const Text(
-                "Error Logging In",
-                textAlign: TextAlign.center,
-              ),
-              content: Text(errorMsg),
-            ));
+    Navigator.pushNamedAndRemoveUntil(
+        context, MyApp.homeRoute, (route) => false);
   }
 }
