@@ -22,12 +22,13 @@ class DatabaseService {
     }
     
     //adds pet detail to pet with pet id from add pet form
-    Future addPetDetails(var petId,var description, var name) async 
+    Future addPetDetails(var petId,var description, var name, var photos) async 
     {
       return await petsCollection.doc(petId).collection('pet_details').add
       ({
         'description': description,
         'name':name,
+        'photos':photos
       });
     }
 }

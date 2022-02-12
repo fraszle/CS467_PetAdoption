@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:image_picker/image_picker.dart';
+//import 'package:xfile/xfile.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:plentyofpets/services/pet_database.dart';
 import 'package:plentyofpets/screens/admin_homepage.dart';
+import 'package:plentyofpets/services/pet_pics.dart';
 
 class AddPetForm extends StatefulWidget {
   const AddPetForm({Key? key}) : super(key: key);
@@ -16,6 +21,7 @@ class _AddPetFormState extends State<AddPetForm> {
   final List<String> availableOptions=['Not Available','Available','Pending','Adopted'];
   String? petType;
   Map<String,dynamic> petFormData = {};
+
   
   @override
   Widget build(BuildContext context) {
@@ -164,10 +170,19 @@ class _AddPetFormState extends State<AddPetForm> {
                         petFormData['Breed'],
                         petFormData['Pet Name'],
                         );
+                        
+                        List<String> picStorage = [];
+                        if (petFormData['photos'] == null){
+                          picStorage[0] = 'gs:/plenty-of-pets-339013.appspot.com/Default photo/IMAGE-COMING-SOON.jpg';
+                        } else{
+                          picStorage = PetPics(petFormData['photos']).addPetPics(id);
+                        };
+
                         DatabaseService().addPetDetails( 
                           id, 
                           petFormData['Description'],
                           petFormData['Pet Name'],
+                          picStorage,
                         );
                         Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => const AdminHomepage()));
