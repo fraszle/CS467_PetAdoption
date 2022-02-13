@@ -4,6 +4,7 @@ import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:plentyofpets/services/pet_database.dart';
 import 'package:plentyofpets/screens/admin_homepage.dart';
+import 'package:plentyofpets/services/pet_pics.dart';
 
 class AddPetForm extends StatefulWidget {
   const AddPetForm({Key? key}) : super(key: key);
@@ -16,6 +17,8 @@ class _AddPetFormState extends State<AddPetForm> {
   final List<String> availableOptions=['Not Available','Available','Pending','Adopted'];
   String? petType;
   Map<String,dynamic> petFormData = {};
+  var adminUser;
+
   
   @override
   Widget build(BuildContext context) {
@@ -148,27 +151,47 @@ class _AddPetFormState extends State<AddPetForm> {
                   
                   FormBuilderImagePicker(
                   name: 'photos',
-                  decoration: const InputDecoration(labelText: 'Pick Photos(up to 5)'),
-                  maxImages: 5,
-                ),
+                  decoration: const InputDecoration(labelText: 'Pick Photos(up to 3)'),
+                  maxImages: 3,
+                  ),
 
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
+                      var currentPet = DatabaseService();
                       _petFormKey.currentState!.save();
                       petFormData = _petFormKey.currentState!.value;
+                      adminUser = currentPet.getUser();
+                      //print(adminUser);
+                      
+                      //adds data from pet form to pets collection
                       if (_petFormKey.currentState!.validate()){
-                        var id = await DatabaseService().addPet(
+                        var id = await currentPet.addPet(
                         petFormData['petType'],
                         petFormData['Availability'],
                         petFormData['Disposition'],
                         petFormData['Breed'],
                         petFormData['Pet Name'],
+                        adminUser,
                         );
-                        DatabaseService().addPetDetails( 
+
+                        //adds pics to firebase storage and pet detail subcollection
+                        List<String> picStorage = [];
+                        if(petFormData['photos'] !=null){
+                          picStorage = await PetPics(petFormData['photos']).addPetPics(id);
+                        };
+
+                        //gets admin info from firebase
+                        Map adminInfo = await currentPet.getAdmin(adminUser);
+
+                        //adds pet form info to pet details sub collection
+                        currentPet.addPetDetails( 
                           id, 
                           petFormData['Description'],
                           petFormData['Pet Name'],
+                          adminInfo,
+                          picStorage,
                         );
+                        
                         Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => const AdminHomepage()));
                       }

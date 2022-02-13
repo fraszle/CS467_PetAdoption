@@ -76,7 +76,8 @@ class FirebaseAuthUtil {
   static Future<bool> createUserDocument(BuildContext context, NewUser newUser,
       UserCredential userCredential) async {
     bool result = true;
-    await usersCollection.add(newUser.toMap()).catchError((error) {
+    await usersCollection.doc(userCredential.user!.uid).set(
+      newUser.toMap()).catchError((error) {
       // Roll back user registration since document creation failed.
       userCredential.user!.delete();
       _showAuthErrorDialog(context, 'Error Registering',
