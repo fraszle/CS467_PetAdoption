@@ -181,14 +181,14 @@ class _AddPetFormState extends State<AddPetForm> {
                         };
 
                         //gets admin info from firebase
-                        // Map adminInfo = await currentPet.getAdmin(adminUser);
-                        // print(adminInfo);
+                        Map adminInfo = await currentPet.getAdmin(adminUser);
 
                         //adds pet form info to pet details sub collection
                         currentPet.addPetDetails( 
                           id, 
                           petFormData['Description'],
                           petFormData['Pet Name'],
+                          adminInfo,
                           picStorage,
                         );
                         
