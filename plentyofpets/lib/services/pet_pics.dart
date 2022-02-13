@@ -1,6 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
-//import 'package:image_picker/image_picker.dart';
 
 class PetPics{
   List pictures;
@@ -8,15 +7,33 @@ class PetPics{
 
   PetPics(this.pictures);
 
-  List<String> addPetPics(id){ 
+  //add pet pictures submitted in the add pet form to firebase storage 
+  Future <List<String>> addPetPics(id)async {
     for(var i=0; i < pictures.length; i++){
       var pic = pictures[i];
+      var petRef = '$id/petPic$i.jpg';
       File petPic = File(pic.path);
-      firebase_storage.FirebaseStorage.instance
-        .ref('$id/petPic$i.jpg')
+      
+      await firebase_storage.FirebaseStorage.instance
+        .ref(petRef)
         .putFile(petPic);
-      picStorage.add('$id/petPic$i.jpg');
+      String petUrl = await downloadURL(petRef);
+      picStorage.add(petUrl);
     };
     return picStorage;
+  }
+
+  //retrieve the picture URL from firebase storage
+  Future downloadURL(petRef) async 
+    {
+     return await firebase_storage.FirebaseStorage.instance
+        .ref(petRef)
+        .getDownloadURL();
+  }
+
+  //list all pics for specific pet id provided
+  Future<void> listPics(id) async {
+    firebase_storage.ListResult result =
+        await firebase_storage.FirebaseStorage.instance.ref(id).listAll();
   }
 }
