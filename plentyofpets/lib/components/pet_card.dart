@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/extract_petID.dart';
+import 'package:plentyofpets/components/extract_pet_basics.dart';
 import 'package:plentyofpets/components/pet_profile_args.dart';
-import 'package:plentyofpets/main.dart';
 
-class PetBlurb extends StatelessWidget {
-  PetBlurb(this.doc, this.petID, {Key? key}) : super(key: key);
+class PetCard extends StatelessWidget {
+  const PetCard(this.doc, this.petID, {Key? key}) : super(key: key);
 
-  Map<String, dynamic> doc = {};
-  String petID;
+  final Map<String, dynamic> doc;
+  final String petID;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         // When a Card is tapped, we navigate to that pet's profile
         onTap: () {
-          Navigator.pushNamed(context, ExtractPetID.routeName,
-              arguments: PetProfileArgs(petID));
+          Navigator.pushNamed(context, ExtractPetBasics.routeName,
+              arguments: PetProfileArgs(petID, doc));
         },
         // Create a card with a ListTile that has pet info
         child: Card(

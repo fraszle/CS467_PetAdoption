@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/pet_blurb.dart';
+import 'package:plentyofpets/components/pet_card.dart';
 
 // This class will be used to create and display a list of pets
 class PetList extends StatelessWidget {
@@ -29,7 +29,7 @@ class PetList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data =
                       petDocs[index].data()! as Map<String, dynamic>;
-                  return PetBlurb(data, petDocs[index].id);
+                  return PetCard(data, petDocs[index].id);
                 });
           }
         });
