@@ -22,10 +22,16 @@ class PetBlurb extends StatelessWidget {
           child: ListTile(
             title:
                 Text(doc['name'], style: Theme.of(context).textTheme.headline5),
-            subtitle: Text(
-                'Type: ${doc['type']}, Breed: ${doc['breed']}          Availability: ${doc['availability']}'),
+            subtitle: Text(doc['availability']),
             leading: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/persian_cat.jpg'),
+              backgroundImage: NetworkImage(doc['mainPhoto']),
+            ),
+            trailing: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('Type: ${doc['type']}'),
+                Text('Breed: ${doc['breed']}')
+              ],
             ),
           ),
         ));
