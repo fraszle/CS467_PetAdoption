@@ -1,50 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/pet_description.dart';
-import '../components/pet_image.dart';
-import '../components/pet_description.dart';
+import 'package:plentyofpets/components/pet_details.dart';
 
 class PetProfile extends StatelessWidget {
-  PetProfile(this.petID, {Key? key}) : super(key: key);
+  const PetProfile(this.petID, this.petBasics, {Key? key}) : super(key: key);
 
-  String petID;
+  final String petID;
+  final Map<String, dynamic> petBasics;
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference pets = FirebaseFirestore.instance.collection('pets');
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Pet Profile'),
         ),
-        body: FutureBuilder<DocumentSnapshot>(
-          future: pets.doc(petID).get(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            return snapshotResult(context, snapshot);
-          },
+        body: Column(
+          children: [
+            PetDetails(petID, petBasics),
+          ],
         ));
   }
-}
-
-Widget snapshotResult(
-    BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-  if (snapshot.hasError) {
-    return Text("Something went wrong: ${snapshot.error}");
-  }
-
-  if (snapshot.hasData && !snapshot.data!.exists) {
-    return const Text("Document does not exist");
-  }
-
-  if (snapshot.connectionState == ConnectionState.done) {
-    Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-          margin: const EdgeInsets.all(8.0), child: const PetProfileImage()),
-      Container(margin: const EdgeInsets.all(10.0), child: PetDescription(data))
-    ]);
-  }
-  return const Text('loading....');
 }

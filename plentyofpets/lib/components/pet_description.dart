@@ -3,20 +3,24 @@ import 'date_converter.dart';
 
 // Class used to display and format pet's info on the pet profile page
 class PetDescription extends StatelessWidget {
-  Map<String, dynamic> data = {};
+  const PetDescription(this.petBasics, this.petDetails, {Key? key})
+      : super(key: key);
 
-  PetDescription(this.data, {Key? key}) : super(key: key);
+  final Map petBasics;
+  final Map petDetails;
 
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(data['name'], style: Theme.of(context).textTheme.headline5),
-      Text('Type: ${data['type']}'),
-      Text('Breed: ${data['breed']}'),
-      Text('Availability: ${data['availability']}'),
-      Text('Date Created: ${dateConverter(data['timestamp'])}'),
+      Image(image: NetworkImage(petDetails['photos'][0])),
+      Text(petBasics['name'], style: Theme.of(context).textTheme.headline5),
+      Text('Type: ${petBasics['type']}'),
+      Text('Breed: ${petBasics['breed']}'),
+      Text('Availability: ${petBasics['availability']}'),
+      Text('Date Created: ${dateConverter(petBasics['timestamp'])}'),
       const Text('Disposition:'),
-      dispositionCol(data['disposition']),
+      dispositionCol(petBasics['disposition']),
+      Text(petDetails['description'])
     ]);
   }
 }
