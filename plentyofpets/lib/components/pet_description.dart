@@ -12,8 +12,10 @@ class PetDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // To do: create nicer profile page
-    final List imgList = petDetails['photos'];
+    final List imgList = petDetails['photos'] ??
+        [
+          'https://images.unsplash.com/photo-1636654129379-e7ae6f30bfd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'
+        ]; // Temp image in case a pet doesn't have an image
     return Column(children: [
       CarouselWithIndicator(imgList),
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
