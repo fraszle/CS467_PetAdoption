@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/pet_img_carousel.dart';
 import 'date_converter.dart';
 
 // Class used to display and format pet's info on the pet profile page
@@ -11,16 +12,20 @@ class PetDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Image(image: NetworkImage(petDetails['photos'][0])),
-      Text(petBasics['name'], style: Theme.of(context).textTheme.headline5),
-      Text('Type: ${petBasics['type']}'),
-      Text('Breed: ${petBasics['breed']}'),
-      Text('Availability: ${petBasics['availability']}'),
-      Text('Date Created: ${dateConverter(petBasics['timestamp'])}'),
-      const Text('Disposition:'),
-      dispositionCol(petBasics['disposition']),
-      Text(petDetails['description'])
+    // To do: create nicer profile page
+    final List imgList = petDetails['photos'];
+    return Column(children: [
+      CarouselWithIndicator(imgList),
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(petBasics['name'], style: Theme.of(context).textTheme.headline5),
+        Text('Type: ${petBasics['type']}'),
+        Text('Breed: ${petBasics['breed']}'),
+        Text('Availability: ${petBasics['availability']}'),
+        Text('Date Created: ${dateConverter(petBasics['timestamp'])}'),
+        const Text('Disposition:'),
+        dispositionCol(petBasics['disposition']),
+        Text(petDetails['description'])
+      ])
     ]);
   }
 }

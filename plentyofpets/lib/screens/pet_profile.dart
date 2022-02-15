@@ -10,14 +10,11 @@ class PetProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Pet Profile'),
-        ),
-        body: Column(
-          children: [
-            PetDetails(petID, petBasics),
-          ],
-        ));
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Pet Profile'),
+      ),
+      body: PetDetails(petID, petBasics),
+    );
   }
 }
