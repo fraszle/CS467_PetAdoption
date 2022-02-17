@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:plentyofpets/screens/admin_homepage.dart';
 import 'package:plentyofpets/screens/add_edit_pet_screen.dart';
 import 'package:plentyofpets/screens/landing_screen.dart';
-import 'package:plentyofpets/screens/pet_profile.dart';
 import 'package:plentyofpets/screens/signup_screen.dart';
 import 'package:plentyofpets/components/user_profile.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
@@ -64,18 +63,6 @@ class NavDrawer extends StatelessWidget {
             context,
             MaterialPageRoute<void>(
               builder: (context) => const SignupScreen(),
-            ),
-          );
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.arrow_right),
-        title: const Text('Pet Profile Screen'),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) => PetProfile('x23u57Kvl6byMHFb5K7P'),
             ),
           );
         },

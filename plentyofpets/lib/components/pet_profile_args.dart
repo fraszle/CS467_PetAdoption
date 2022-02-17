@@ -2,6 +2,7 @@
 
 class PetProfileArgs {
   final String petID;
+  final Map<String, dynamic> petBasicInfo;
 
-  PetProfileArgs(this.petID);
+  PetProfileArgs(this.petID, this.petBasicInfo);
 }

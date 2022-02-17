@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/pet_blurb.dart';
+import 'package:plentyofpets/components/pet_card.dart';
 
 // This class will be used to create and display a list of pets
 class PetList extends StatelessWidget {
@@ -15,27 +15,23 @@ class PetList extends StatelessWidget {
             return Text("Something went wrong: ${snapshot.error}");
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("Loading...");
+            return const CircularProgressIndicator(
+              value: null,
+              semanticsLabel: 'Progress Indicator',
+            );
           } else {
             // Get a list of all documents in the collection
             List petDocs = snapshot.data!.docs;
 
             // Create a ListView with each document as a PetBlurb Widget child
-            return ListView(children: petArr(petDocs));
+            return ListView.builder(
+                itemCount: petDocs.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> data =
+                      petDocs[index].data()! as Map<String, dynamic>;
+                  return PetCard(data, petDocs[index].id);
+                });
           }
         });
   }
-}
-
-List<Widget> petArr(List petDocs) {
-  List<Widget> allPets = [];
-
-  // Loop over each document and create a PetBlurb from each one.
-  for (var item in petDocs) {
-    Map<String, dynamic> data = item.data()! as Map<String, dynamic>;
-    String docID = item.id;
-    allPets.add(PetBlurb(data, docID));
-  }
-
-  return allPets;
 }

@@ -5,10 +5,10 @@ import '../screens/pet_profile.dart';
 // A Widget that extracts the necessary arguments from
 // the ModalRoute.
 
-class ExtractPetID extends StatelessWidget {
-  const ExtractPetID({Key? key}) : super(key: key);
+class ExtractPetBasics extends StatelessWidget {
+  const ExtractPetBasics({Key? key}) : super(key: key);
 
-  static const routeName = '/extractPetID';
+  static const routeName = '/extractPetBasics';
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,6 @@ class ExtractPetID extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as PetProfileArgs;
 
     // Create a pet profile based on petID argument
-    return PetProfile(args.petID);
+    return PetProfile(args.petID, args.petBasicInfo);
   }
 }
