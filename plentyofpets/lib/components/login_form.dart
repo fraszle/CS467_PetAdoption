@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/form_fields.dart';
 import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 
@@ -59,7 +60,13 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
         child: Column(
           children: [
             emailField(),
-            passwordField(),
+            Padding(
+                padding: const EdgeInsets.all(10),
+                child: PasswordFormField(
+                  labelText: 'Password',
+                  onSaved: passwordSave,
+                  validator: passwordValidator,
+                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -105,26 +112,6 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
         ));
   }
 
-  Widget passwordField() {
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: TextFormField(
-          obscureText: true,
-          enableSuggestions: false,
-          decoration: const InputDecoration(
-              errorStyle: PlentyOfPetsTheme.formErrorText,
-              border: UnderlineInputBorder(),
-              labelText: 'Password'),
-          onSaved: (value) => password = value,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter a password';
-            }
-            return null;
-          },
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -144,5 +131,16 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
 
     Navigator.pushNamedAndRemoveUntil(
         context, MyApp.homeRoute, (route) => false);
+  }
+
+  void passwordSave(String? password) {
+    this.password = password;
+  }
+
+  String? passwordValidator(String? password) {
+    if (password == null || password.isEmpty) {
+      return 'Please enter a password';
+    }
+    return null;
   }
 }

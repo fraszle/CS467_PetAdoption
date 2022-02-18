@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/form_fields.dart';
 import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 import 'package:plentyofpets/utils/user_model.dart';
@@ -81,39 +82,21 @@ class RegistrationFormState extends State<RegistrationForm> {
   List<Widget> nameFields() {
     return [
       standardTextFormField('First Name', (value) => builder.firstName = value,
-          (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a First Name.';
-        }
-      }),
+          notNullOrEmpty('Please enter a First Name')),
       standardTextFormField('Last Name', (value) => builder.lastName = value,
-          (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Last Name.';
-        }
-      })
+          notNullOrEmpty('Please enter a Last Name.'))
     ];
   }
 
   /// Returns the city, state, and zip code form fields
   List<Widget> locationFields() {
     return [
-      standardTextFormField('City', (value) => builder.city = value, (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a City.';
-        }
-      }),
-      standardTextFormField('State', (value) => builder.state = value, (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a State.';
-        }
-      }),
+      standardTextFormField('City', (value) => builder.city = value,
+          notNullOrEmpty('Please enter a City.')),
+      standardTextFormField('State', (value) => builder.state = value,
+          notNullOrEmpty('Please enter a State.')),
       standardTextFormField('Zip Code', (value) => builder.zipCode = value,
-          (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Zip Code.';
-        }
-      })
+          notNullOrEmpty('Please enter a Zip Code.'))
     ];
   }
 
@@ -121,17 +104,14 @@ class RegistrationFormState extends State<RegistrationForm> {
   List<Widget> emailFields() {
     return [
       standardTextFormField('Email Address', (value) => builder.email = value,
-          (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter an email address.';
-        }
-      }),
+          notNullOrEmpty('Please enter an Email Address.')),
       standardTextFormField(
           'Confirm Your Email Address', (value) => emailConfirmation = value,
           (value) {
         if (value != builder.email) {
           return 'Emails do not match.';
         }
+        return null;
       }),
     ];
   }
@@ -141,15 +121,8 @@ class RegistrationFormState extends State<RegistrationForm> {
     return [
       Padding(
           padding: const EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            obscureText: true,
-            enableSuggestions: false,
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Password'),
+          child: PasswordFormField(
+            labelText: 'Password',
             onSaved: (value) => builder.password = value,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -164,15 +137,8 @@ class RegistrationFormState extends State<RegistrationForm> {
           )),
       Padding(
           padding: const EdgeInsets.all(fieldPadding),
-          child: TextFormField(
-            obscureText: true,
-            enableSuggestions: false,
-            decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all(0),
-                errorStyle: PlentyOfPetsTheme.formErrorText,
-                border: UnderlineInputBorder(),
-                labelText: 'Confirm Your Password'),
+          child: PasswordFormField(
+            labelText: 'Confirm Your Password',
             onSaved: (value) => passwordConfirmation = value,
             validator: (value) {
               if (value != builder.password) {
@@ -210,11 +176,9 @@ class RegistrationFormState extends State<RegistrationForm> {
   List<Widget> adminFields() {
     return [
       standardTextFormField(
-          'Shelter Name', (value) => builder.organizationName = value, (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter a shelter name.';
-        }
-      }),
+          'Shelter Name',
+          (value) => builder.organizationName = value,
+          notNullOrEmpty('Please enter a Shelter Name.')),
       standardTextFormField(
           'Shelter Website', (value) => builder.organizationUrl = value,
           (value) {
@@ -224,6 +188,7 @@ class RegistrationFormState extends State<RegistrationForm> {
         if (!Uri.parse(value).isAbsolute) {
           return 'Please enter a valid URL.';
         }
+        return null;
       }),
     ];
   }
@@ -256,6 +221,7 @@ class RegistrationFormState extends State<RegistrationForm> {
     Navigator.pushNamed(context, MyApp.homeRoute);
   }
 
+  // A plain text form field in the registration form
   Widget standardTextFormField(String labelText,
       void Function(String?)? onSaved, String? Function(String?)? validator) {
     return Padding(
@@ -263,12 +229,23 @@ class RegistrationFormState extends State<RegistrationForm> {
         child: TextFormField(
           decoration: InputDecoration(
               isDense: true,
-              contentPadding: const EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.only(bottom: 10),
               errorStyle: PlentyOfPetsTheme.formErrorText,
               border: const UnderlineInputBorder(),
               labelText: labelText),
           onSaved: onSaved,
           validator: validator,
         ));
+  }
+
+  // Returns a validation function that checks if the value in a text form field
+  // is null or empty and returns a msg if so
+  String? Function(String?) notNullOrEmpty(String errMsg) {
+    return (value) {
+      if (value == null || value.isEmpty) {
+        return errMsg;
+      }
+      return null;
+    };
   }
 }
