@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/form_fields.dart';
+import 'package:plentyofpets/components/title.dart';
 import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 import 'package:plentyofpets/utils/user_model.dart';
@@ -62,20 +63,11 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   /// Returns the title for the Registration page
   Widget title(BuildContext context) {
-    return Align(
+    return const Align(
         alignment: Alignment.center,
         child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
-            child: Stack(children: [
-              Text(
-                titleText,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              Text(
-                titleText,
-                style: PlentyOfPetsTheme.headlineTextOutline,
-              )
-            ])));
+            padding: EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
+            child: TitleText(text: titleText)));
   }
 
   /// Returns the TextFormFields for First Name and Last Name
