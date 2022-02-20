@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/title.dart';
 
 import '../components/decorations.dart';
 import '../components/login_form.dart';
 import '../components/logo_carousel.dart';
-import '../theme.dart';
 
 class LandingScreen extends StatelessWidget {
   final String title = 'Plenty of Pets';
@@ -28,14 +28,7 @@ class LandingScreen extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.center,
-                      child: Stack(children: [
-                        Text(
-                          title,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        Text(title,
-                            style: PlentyOfPetsTheme.headlineTextOutline)
-                      ]),
+                      child: TitleText(text: title),
                     ),
                     LogoCarousel(),
                     Align(

@@ -9,6 +9,25 @@ class FirebaseAuthUtil {
   static final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  /// Returns the curerently signed in user or null if no user is signed in.
+  static User? getCurrentlySignedInUser() {
+    return auth.currentUser;
+  }
+
+  /// Returns true if the currently logged in user is an admin, else false.
+  static Future<bool> isUserAdmin() async {
+    var user = FirebaseAuthUtil.getCurrentlySignedInUser();
+    if (user == null) {
+      throw Exception('No user is logged in.');
+    }
+    DocumentSnapshot doc = await usersCollection.doc(user.uid).get();
+    if (!doc.exists) {
+      throw Exception('Failed to find doc for logged in user.');
+    }
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return data['isAdmin'];
+  }
+
   /// Signs in the user with the given email and password
   static Future<bool> signIn(
       BuildContext context, String email, String password) async {
@@ -76,8 +95,10 @@ class FirebaseAuthUtil {
   static Future<bool> createUserDocument(BuildContext context, NewUser newUser,
       UserCredential userCredential) async {
     bool result = true;
-    await usersCollection.doc(userCredential.user!.uid).set(
-      newUser.toMap()).catchError((error) {
+    await usersCollection
+        .doc(userCredential.user!.uid)
+        .set(newUser.toMap())
+        .catchError((error) {
       // Roll back user registration since document creation failed.
       userCredential.user!.delete();
       _showAuthErrorDialog(context, 'Error Registering',
