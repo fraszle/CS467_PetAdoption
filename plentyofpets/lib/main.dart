@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:plentyofpets/components/extract_pet_basics.dart';
+import 'package:plentyofpets/screens/home_filter_screen.dart';
 import 'package:plentyofpets/theme.dart';
 
 import 'screens/signup_screen.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         homeRoute: (context) => const HomeScreen(),
         adminRoute: (context) => const AdminHomepage(),
         ExtractPetBasics.routeName: (context) => const ExtractPetBasics(),
+        HomeFilterScreen.routeName: (context) => const HomeFilterScreen()
       },
     );
   }

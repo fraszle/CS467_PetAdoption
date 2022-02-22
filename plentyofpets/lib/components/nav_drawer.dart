@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:plentyofpets/screens/admin_homepage.dart';
 import 'package:plentyofpets/screens/add_edit_pet_screen.dart';
+import 'package:plentyofpets/screens/home_filter_screen.dart';
 import 'package:plentyofpets/screens/landing_screen.dart';
 import 'package:plentyofpets/screens/signup_screen.dart';
 import 'package:plentyofpets/components/user_profile.dart';
@@ -75,6 +76,18 @@ class NavDrawer extends StatelessWidget {
             context,
             MaterialPageRoute<void>(
               builder: (context) => const UserProfile(),
+            ),
+          );
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.arrow_right),
+        title: const Text('Home Filter Screen'),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (context) => const HomeFilterScreen(),
             ),
           );
         },
