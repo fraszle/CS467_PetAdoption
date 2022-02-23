@@ -6,12 +6,13 @@ import '../screens/saved_pet_list_screen.dart';
 import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({this.tabIndex = 1, Key? key}) : super(key: key);
+  final int tabIndex;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: tabIndex,
       length: 4,
       child: Scaffold(
         appBar: AppBar(),

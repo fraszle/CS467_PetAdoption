@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:plentyofpets/components/pets_list.dart';
+import 'package:plentyofpets/screens/home_screen.dart';
 
 class HomeFilterForm extends StatefulWidget {
   const HomeFilterForm({Key? key}) : super(key: key);
@@ -97,7 +99,15 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
-                ))
+                )),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen(tabIndex: 0)));
+                },
+                child: const Text('Submit'))
           ])))
     ]);
   }
