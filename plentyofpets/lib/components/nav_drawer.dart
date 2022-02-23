@@ -82,18 +82,6 @@ class NavDrawer extends StatelessWidget {
       ),
       ListTile(
         leading: const Icon(Icons.arrow_right),
-        title: const Text('Home Filter Screen'),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) => const HomeFilterScreen(),
-            ),
-          );
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.arrow_right),
         title: const Text('Signout'),
         onTap: () => FirebaseAuthUtil.signOut(context),
       )
