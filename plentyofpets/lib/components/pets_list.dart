@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/pet_card.dart';
+import 'package:plentyofpets/screens/home_filter_screen.dart';
 
 // This class will be used to create and display a list of pets
 class PetList extends StatelessWidget {
@@ -24,13 +25,21 @@ class PetList extends StatelessWidget {
             List petDocs = snapshot.data!.docs;
 
             // Create a ListView with each document as a PetBlurb Widget child
-            return ListView.builder(
-                itemCount: petDocs.length,
-                itemBuilder: (context, index) {
-                  Map<String, dynamic> data =
-                      petDocs[index].data()! as Map<String, dynamic>;
-                  return PetCard(data, petDocs[index].id);
-                });
+            return Column(children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, HomeFilterScreen.routeName);
+                  },
+                  child: const Text('Filter List')),
+              Flexible(
+                  child: ListView.builder(
+                      itemCount: petDocs.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> data =
+                            petDocs[index].data()! as Map<String, dynamic>;
+                        return PetCard(data, petDocs[index].id);
+                      }))
+            ]);
           }
         });
   }
