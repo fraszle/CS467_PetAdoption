@@ -34,13 +34,11 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
             FormBuilderChoiceChip(
               name: 'petType',
               decoration: const InputDecoration(
-                labelText: 'Pet Type:',
-                labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                contentPadding: EdgeInsets.symmetric(horizontal: 60),
-              ),
+                  labelText: 'Pet Type:',
+                  labelStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
               options: const [
                 FormBuilderFieldOption(value: 'Cat', child: Text('Cat🐱')),
                 FormBuilderFieldOption(value: 'Dog', child: Text('Dog🐶')),
@@ -57,23 +55,22 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
             FormBuilderFilterChip(
                 name: 'petBreed',
                 decoration: const InputDecoration(
-                    labelText: 'Pet Breed:',
-                    labelStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10)),
-                options: displayBreeds(context)),
-            FormBuilderFilterChip(
-              name: 'petDisposition',
-              decoration: const InputDecoration(
-                  labelText: 'Disposition:',
+                  labelText: 'Pet Breed:',
                   labelStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 15, vertical: 5)),
+                ),
+                options: displayBreeds(context)),
+            FormBuilderFilterChip(
+              name: 'petDisposition',
+              decoration: const InputDecoration(
+                labelText: 'Disposition:',
+                labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
               options: const [
                 FormBuilderFieldOption(
                     value: 'Kids', child: Text('Good with Kids')),
@@ -95,7 +92,7 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
                 lastDate: DateTime.now(),
                 format: DateFormat('yyyy-MM-dd'),
                 decoration: const InputDecoration(
-                  labelText: 'Date Range',
+                  labelText: 'Date Range (Click to select a date range)',
                   labelStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
