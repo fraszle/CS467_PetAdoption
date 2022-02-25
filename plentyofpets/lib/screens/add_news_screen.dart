@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/news_form.dart';
 
 class AddNewsScreen extends StatelessWidget {
   const AddNewsScreen({Key? key}) : super(key: key);
@@ -7,16 +8,10 @@ class AddNewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a News piece'),
+        centerTitle: true,
+        title: const Text('Add a News Article'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
-        ),
-      ),
+      body: const NewsForm(),
     );
   }
 }

@@ -129,8 +129,9 @@ class AuthenticationHandlerState extends State<AuthenticationHandler> {
       return;
     }
 
-    Navigator.pushNamedAndRemoveUntil(
-        context, MyApp.homeRoute, (route) => false);
+    bool userIsAdmin = await FirebaseAuthUtil.isUserAdmin();
+    String route = MyApp.getHomeRoute(userIsAdmin);
+    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
   }
 
   void passwordSave(String? password) {
