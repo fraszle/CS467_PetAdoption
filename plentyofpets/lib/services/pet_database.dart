@@ -60,17 +60,6 @@ class DatabaseService {
     });
   }
 
-  // //gets a list of 
-  // List<dynamic> getFavsDocs(favPetIds) {
-  //   List favPetDocs = [];
-  //   for (String pet in favPetIds){
-  //     var petObject = getPetDocs(pet)as Map<String,dynamic>;
-  //     //var petStuff = petObject['name'];
-  //     favPetDocs.add(petObject);
-  //   }
-  //   return(favPetDocs);
-  // }
-
   //returns a list of favorite pet docs from firebase
   Future<List<dynamic>> favPetDocs (favPets) async {
     List<dynamic> listFavPetDocs = [];
