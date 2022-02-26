@@ -70,6 +70,30 @@ class DatabaseService {
     }
     return listFavPetDocs;
   }
+  
+  //add a pet to a user's favorites
+  Future addFav(petId) async {
+      var userid = getUser();
+      return await usersCollection.doc(userid).update({
+      'favs': FieldValue.arrayUnion(['$petId'])
+      });
+  }
+
+  Future deleteFav(petId) async {
+    var userid = getUser();
+    return await usersCollection.doc(userid).update({
+      'favs': FieldValue.arrayRemove(['$petId'])
+    });
+  }
+
+  Future<List> userPetFavs() {
+    var userid = getUser();
+    return FirebaseFirestore.instance.collection('users').doc('$userid')
+    .get()
+    .then((DocumentSnapshot documentSnapshot) {
+        return documentSnapshot.get(FieldPath(['favs']));
+    });
+  }
 
   static void addNews(String title, String article, String organization) async {
     await newsCollection.add({

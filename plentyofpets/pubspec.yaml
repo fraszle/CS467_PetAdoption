@@ -46,6 +46,8 @@ dependencies:
   xfile: ^1.1.0
   firebase_storage: ^10.2.7
   image_picker: ^0.8.4+8
+  favorite_button: ^0.0.4
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
