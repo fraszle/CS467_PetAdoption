@@ -9,13 +9,21 @@ import 'screens/home_screen.dart';
 import 'screens/landing_screen.dart';
 import 'screens/admin_homepage.dart';
 import 'firebase_options.dart';
+import 'utils/firebase_auth_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  bool showAdminHomePage = false;
+  User? firebaseUser = FirebaseAuth.instance.currentUser;
+  if (firebaseUser != null) {
+    showAdminHomePage = await FirebaseAuthUtil.isUserAdmin();
+  }
+
+  runApp(MyApp(showAdminHomePage: showAdminHomePage));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,18 +32,18 @@ class MyApp extends StatelessWidget {
   static const signupRoute = '/signup';
   static const adminRoute = '/admin';
 
-  const MyApp({Key? key}) : super(key: key);
+  final bool showAdminHomePage;
+
+  const MyApp({Key? key, required this.showAdminHomePage}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    User? firebaseUser = FirebaseAuth.instance.currentUser;
-
     return MaterialApp(
       title: 'Plenty of Pets',
       theme: PlentyOfPetsTheme.getTheme(),
       // Redirect to Home screen if user is already logged in
-      initialRoute: firebaseUser != null ? homeRoute : loginRoute,
+      initialRoute: showAdminHomePage ? adminRoute : loginRoute,
       routes: {
         loginRoute: (context) => const LandingScreen(),
         signupRoute: (context) => const SignupScreen(),
@@ -44,5 +52,13 @@ class MyApp extends StatelessWidget {
         ExtractPetBasics.routeName: (context) => const ExtractPetBasics(),
       },
     );
+  }
+
+  static String getHomeRoute(bool isAdmin) {
+    if (isAdmin) {
+      return adminRoute;
+    } else {
+      return homeRoute;
+    }
   }
 }

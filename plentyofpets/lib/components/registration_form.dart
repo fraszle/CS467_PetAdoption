@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/form_fields.dart';
-import 'package:plentyofpets/theme.dart';
+import 'package:plentyofpets/components/title.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 import 'package:plentyofpets/utils/user_model.dart';
 
@@ -62,20 +62,11 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   /// Returns the title for the Registration page
   Widget title(BuildContext context) {
-    return Align(
+    return const Align(
         alignment: Alignment.center,
         child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
-            child: Stack(children: [
-              Text(
-                titleText,
-                style: Theme.of(context).textTheme.headline3,
-              ),
-              Text(
-                titleText,
-                style: PlentyOfPetsTheme.headlineTextOutline,
-              )
-            ])));
+            padding: EdgeInsets.fromLTRB(0, 0, 0, fieldPadding),
+            child: TitleText(text: titleText)));
   }
 
   /// Returns the TextFormFields for First Name and Last Name
@@ -219,33 +210,5 @@ class RegistrationFormState extends State<RegistrationForm> {
     }
 
     Navigator.pushNamed(context, MyApp.homeRoute);
-  }
-
-  // A plain text form field in the registration form
-  Widget standardTextFormField(String labelText,
-      void Function(String?)? onSaved, String? Function(String?)? validator) {
-    return Padding(
-        padding: const EdgeInsets.all(fieldPadding),
-        child: TextFormField(
-          decoration: InputDecoration(
-              isDense: true,
-              contentPadding: const EdgeInsets.only(bottom: 10),
-              errorStyle: PlentyOfPetsTheme.formErrorText,
-              border: const UnderlineInputBorder(),
-              labelText: labelText),
-          onSaved: onSaved,
-          validator: validator,
-        ));
-  }
-
-  // Returns a validation function that checks if the value in a text form field
-  // is null or empty and returns a msg if so
-  String? Function(String?) notNullOrEmpty(String errMsg) {
-    return (value) {
-      if (value == null || value.isEmpty) {
-        return errMsg;
-      }
-      return null;
-    };
   }
 }

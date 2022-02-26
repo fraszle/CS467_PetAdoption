@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/admin_homepage_buttons.dart';
 import '../components/decorations.dart';
+import '../components/nav_drawer.dart';
 
 class AdminHomepage extends StatelessWidget {
   const AdminHomepage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class AdminHomepage extends StatelessWidget {
           centerTitle: true,
           title: const Text('Admin Homepage'),
         ),
+        drawer: const Drawer(child: NavDrawer()),
         body: SizedBox(
           child: Column(
             children: [
