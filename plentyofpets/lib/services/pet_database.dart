@@ -40,20 +40,42 @@ class DatabaseService {
       }).then((value){return value.id;});
     }
     
-    //adds pet detail to pet with pet id from add pet form
-    //makes additional call to add main photo to pets collection doc
-    Future addPetDetails(var petId,var description, var name, var adminInfo,var photos) async 
-    {
-      return await petsCollection.doc(petId).collection('pet_details').add
-      ({
-        'description': description,
-        'name':name,
-        'admin':adminInfo,
-        'photos':photos
-      }).then((value)async{
-          return await petsCollection.doc(petId).set(
-            {'mainPhoto':photos[0]}, SetOptions(merge: true)
-          );
-        });
+  //adds pet detail to pet with pet id from add pet form
+  //makes additional call to add main photo to pets collection doc
+  Future addPetDetails(var petId,var description, var name, var adminInfo,var photos) async 
+  {
+    return await petsCollection.doc(petId).collection('pet_details').add
+    ({
+      'description': description,
+      'name':name,
+      'admin':adminInfo,
+      'photos':photos
+    }).then((value)async{
+        return await petsCollection.doc(petId).set(
+          {'mainPhoto':photos[0]}, SetOptions(merge: true)
+        );
+      });
+  }
+
+  // //gets a list of 
+  // List<dynamic> getFavsDocs(favPetIds) {
+  //   List favPetDocs = [];
+  //   for (String pet in favPetIds){
+  //     var petObject = getPetDocs(pet)as Map<String,dynamic>;
+  //     //var petStuff = petObject['name'];
+  //     favPetDocs.add(petObject);
+  //   }
+  //   return(favPetDocs);
+  // }
+
+  //returns a list of favorite pet docs from firebase
+  Future<List<dynamic>> favPetDocs (favPets) async {
+    List<dynamic> listFavPetDocs = [];
+    for(String pet in favPets) { 
+      DocumentSnapshot documentSnapshot = 
+        await FirebaseFirestore.instance.collection('pets').doc(pet).get();
+        listFavPetDocs.add(documentSnapshot);
     }
+    return listFavPetDocs;
+  }
 }

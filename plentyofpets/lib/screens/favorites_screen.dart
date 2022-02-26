@@ -11,7 +11,7 @@ class FavoritePets extends StatelessWidget {
         title: const Text('Favorites'),
       ),
       body: const Center(
-        child: FavList(),
+        child: FavPets(),
       ),
     );
   }
