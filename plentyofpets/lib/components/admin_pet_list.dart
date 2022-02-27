@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/pet_card.dart';
 import 'package:plentyofpets/services/pet_database.dart';
 
-// This class will be used to create and display a list of pets
+// This class will be used to create/display the list of pets 
+//from the admin currently logged in
 class AdminPets extends StatelessWidget {
   const AdminPets({Key? key}) : super(key: key);
 
