@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const Center(
               // Stretch goal
-              child: NewsFeed(),
+              child: NewsFeedScreen(),
             ),
             // Users saved pets list
             Center(

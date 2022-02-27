@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:plentyofpets/components/extract_pet_basics.dart';
 import 'package:plentyofpets/screens/home_filter_screen.dart';
+import 'package:plentyofpets/components/news_post.dart';
+import 'package:plentyofpets/screens/news_post_screen.dart';
 import 'package:plentyofpets/theme.dart';
 
 import 'screens/signup_screen.dart';
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
   static const homeRoute = '/home';
   static const signupRoute = '/signup';
   static const adminRoute = '/admin';
+  static const newsPostRoute = '/newsPost';
 
   final bool showAdminHomePage;
 
@@ -51,7 +54,8 @@ class MyApp extends StatelessWidget {
         homeRoute: (context) => HomeScreen(),
         adminRoute: (context) => const AdminHomepage(),
         ExtractPetBasics.routeName: (context) => const ExtractPetBasics(),
-        HomeFilterScreen.routeName: (context) => const HomeFilterScreen()
+        HomeFilterScreen.routeName: (context) => const HomeFilterScreen(),
+        newsPostRoute: (context) => const NewsPostScreen()
       },
     );
   }

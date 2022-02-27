@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 
 import '../services/pet_database.dart';
@@ -31,8 +32,7 @@ class _NewsFormState extends State<NewsForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  standardTextFormField('Title', (value) => title = value,
-                      notNullOrEmpty('Please enter a Title')),
+                  titleFormField(),
                   Padding(
                       padding: const EdgeInsets.all(5),
                       child: TextFormField(
@@ -60,6 +60,23 @@ class _NewsFormState extends State<NewsForm> {
                 ],
               )))
     ]);
+  }
+
+  Widget titleFormField() {
+    return Padding(
+        padding: const EdgeInsets.all(5),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.only(bottom: 10),
+              errorStyle: PlentyOfPetsTheme.formErrorText,
+              border: UnderlineInputBorder(),
+              labelText: 'Title'),
+          onSaved: (value) => title = value,
+          validator: notNullOrEmpty('Please enter a Title'),
+          maxLength: 25,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+        ));
   }
 
   /// Returns the submit button for the form.
