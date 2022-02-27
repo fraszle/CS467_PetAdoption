@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:plentyofpets/utils/firebase_auth_util.dart';
 
 class DatabaseService {
   final String id = '';
@@ -17,6 +18,11 @@ class DatabaseService {
   String? getUser() {
     currentUser = FirebaseAuth.instance.currentUser;
     return currentUser!.uid;
+  }
+
+  Future<bool> isAdmin() {
+    var isAdmins = FirebaseAuthUtil.isUserAdmin();
+    return isAdmins;
   }
 
   //returns admin info to be added to pet details field.
@@ -60,6 +66,34 @@ class DatabaseService {
     });
   }
 
+
+ //adds new pet and captures pet id from add pet form
+  Future editPet(var type,var availability,var disposition,var breed,
+    var name, admin,var petID, var adminInfo, var description) async{
+      var petDetailDocName;
+      return await petsCollection.doc('$petID').update({
+        'type': type,
+        'availability':availability,
+        'disposition':disposition,
+        'breed':breed,
+        'name': name,
+        'timestamp': FieldValue.serverTimestamp(),
+        'admin': admin,
+        //'mainPhoto': photos[0],
+      }).then((pet) async{
+          await petsCollection.doc('$petID').collection('pet_details').get()
+          .then((value){
+            petDetailDocName = value.docs[0].id;
+            return petsCollection.doc('$petID').collection('pet_details').
+              doc('$petDetailDocName').update({
+              'description': description,
+              'name': name,
+              'admin': adminInfo,
+              //'photos': photos
+          });
+        });
+      });
+    }
   //returns a list of favorite pet docs from firebase
   Future<List<dynamic>> favPetDocs (favPets) async {
     List<dynamic> listFavPetDocs = [];
@@ -84,6 +118,11 @@ class DatabaseService {
     return await usersCollection.doc(userid).update({
       'favs': FieldValue.arrayRemove(['$petId'])
     });
+  }
+
+  Future deletePet(petId) async{
+    var userid = getUser();
+    return petsCollection.doc(petId).delete();
   }
 
   Future<List> userPetFavs() {
