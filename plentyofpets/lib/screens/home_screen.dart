@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/nav_drawer.dart';
 import '../components/user_profile.dart';
 import '../components/pets_list.dart';
-import '../screens/saved_pet_list_screen.dart';
+import 'favorites_screen.dart';
 import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             ),
             // Users saved pets list
             Center(
-              child: SavedPetList(),
+              child: FavoritePets(),
             ),
             Center(
               // Display the user profile page
