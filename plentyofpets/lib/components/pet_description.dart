@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/title.dart';
 import '../components/pet_img_carousel.dart';
 import 'date_converter.dart';
 
@@ -22,8 +23,7 @@ class PetDescription extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(40, 5, 40, 5),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(petBasics['name'],
-                style: Theme.of(context).textTheme.headline3),
+            TitleText(text: petBasics['name']),
             const SizedBox(height: 10),
             Text('Type: ${petBasics['type']}'),
             const SizedBox(height: 10),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:plentyofpets/components/pets_list.dart';
+import 'package:plentyofpets/components/build_filter_query.dart';
 import 'package:plentyofpets/screens/home_screen.dart';
 
 class HomeFilterForm extends StatefulWidget {
@@ -14,6 +14,8 @@ class HomeFilterForm extends StatefulWidget {
 
 class _HomeFilterFormState extends State<HomeFilterForm> {
   final _filterFormKey = GlobalKey<FormBuilderState>();
+
+  Map<String, dynamic> filterFormData = {};
 
   @override
   Widget build(BuildContext context) {
@@ -101,11 +103,17 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
                       fontWeight: FontWeight.bold),
                 )),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  _filterFormKey.currentState?.save();
+                  filterFormData = _filterFormKey.currentState!.value;
+                  List petDocs =
+                      await BuildFilterQuery(filterData: filterFormData)
+                          .getFilteredPets();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreen(tabIndex: 0)));
+                          builder: (context) =>
+                              HomeScreen(tabIndex: 0, petDocs: petDocs)));
                 },
                 child: const Text('Submit'))
           ])))
@@ -147,7 +155,6 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
         FormBuilderFieldOption(value: 'Guinea Pig', child: Text('Guinea Pig')),
         FormBuilderFieldOption(value: 'Parakeet', child: Text('Parakeet')),
         FormBuilderFieldOption(value: 'Rabbit', child: Text('Rabbit')),
-        FormBuilderFieldOption(value: 'Other', child: Text('Other')),
         FormBuilderFieldOption(value: 'Other', child: Text('Other'))
       ];
     }

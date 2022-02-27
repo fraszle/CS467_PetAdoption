@@ -6,8 +6,9 @@ import '../screens/saved_pet_list_screen.dart';
 import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({this.tabIndex = 1, Key? key}) : super(key: key);
+  HomeScreen({this.tabIndex = 1, this.petDocs, Key? key}) : super(key: key);
   final int tabIndex;
+  final List? petDocs;
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +19,21 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(),
         drawer: const Drawer(child: NavDrawer()),
         bottomNavigationBar: menu(),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
             Center(
               // Display a list of pets from the database
-              child: PetList(),
+              child: PetList(petDocs: petDocs),
             ),
-            Center(
+            const Center(
               // Stretch goal
               child: NewsFeed(),
             ),
             // Users saved pets list
-            Center(
+            const Center(
               child: SavedPetList(),
             ),
-            Center(
+            const Center(
               // Display the user profile page
               child: UserProfile(),
             ),
