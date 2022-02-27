@@ -97,7 +97,6 @@ class _PetCardState extends State<PetCard> {
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 20, 77, 23)))
                   ],),
-                  
                     Align(
                       alignment: Alignment.topRight,
                       child:FavoriteButton(
