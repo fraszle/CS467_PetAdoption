@@ -107,6 +107,10 @@ class BuildFilterQuery {
     return dispoList;
   }
 
+  Future<List> petsByDates() async {
+    return [];
+  }
+
   // Get pet documents that correspond to the inputted list of pet ids
   Future<List> getDocs(List petIDs) async {
     List docsList = [];
