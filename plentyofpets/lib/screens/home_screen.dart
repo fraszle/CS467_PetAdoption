@@ -6,24 +6,26 @@ import 'favorites_screen.dart';
 import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({this.tabIndex = 1, this.petDocs, Key? key}) : super(key: key);
+  final int tabIndex;
+  final List? petDocs;
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: tabIndex,
       length: 4,
       child: Scaffold(
         appBar: AppBar(),
         drawer: const Drawer(child: NavDrawer()),
         bottomNavigationBar: menu(),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
             Center(
               // Display a list of pets from the database
-              child: PetList(),
+              child: PetList(petDocs: petDocs),
             ),
-            Center(
+            const Center(
               // Stretch goal
               child: NewsFeedScreen(),
             ),
@@ -31,7 +33,7 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: FavoritePets(),
             ),
-            Center(
+            const Center(
               // Display the user profile page
               child: UserProfile(),
             ),
