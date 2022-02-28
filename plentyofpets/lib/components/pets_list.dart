@@ -74,11 +74,6 @@ class PetList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, HomeFilterScreen.routeName);
-                },
-                child: const Text('Filter List')),
-            ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red)),
