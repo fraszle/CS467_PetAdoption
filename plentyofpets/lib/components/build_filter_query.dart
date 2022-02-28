@@ -54,8 +54,10 @@ class BuildFilterQuery {
       petID = petID.toSet().intersection(breedList.toSet()).toList();
     }
 
-    List dispoList = await petsByDisposition();
-    if (dispoList.isNotEmpty) {
+    // If dispositions were chosen, get those ids
+    if (filterData['petDisposition'].isNotEmpty) {
+      List dispoList = await petsByDisposition();
+      // Only keep ids that intersect across type, breed, and disposition
       petID = petID.toSet().intersection(dispoList.toSet()).toList();
     }
 
@@ -68,6 +70,7 @@ class BuildFilterQuery {
   Future<List> petsByBreed(String petType) async {
     List breedList = [];
 
+    // Get any pets that aren't in the common breeds list
     if (filterData['petBreed'].contains('Other')) {
       await petsCollection
           .where('breed', whereNotIn: petBreedMap[petType])
@@ -78,6 +81,7 @@ class BuildFilterQuery {
         }
       });
     }
+    // Get any pets that are in the common breeds list
     await petsCollection
         .where('breed', whereIn: filterData['petBreed'])
         .get()
@@ -92,16 +96,14 @@ class BuildFilterQuery {
   // Get a list of pet ids based on disposition filters
   Future<List> petsByDisposition() async {
     List dispoList = [];
-    if (filterData['petDisposition'].isNotEmpty) {
-      await petsCollection
-          .where('disposition', whereIn: filterData['petDisposition'])
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        for (var doc in querySnapshot.docs) {
-          dispoList.add(doc.id);
-        }
-      });
-    }
+    await petsCollection
+        .where('disposition', isEqualTo: filterData['petDisposition'])
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        dispoList.add(doc.id);
+      }
+    });
     return dispoList;
   }
 
