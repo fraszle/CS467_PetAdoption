@@ -11,7 +11,7 @@ class NewsPostScreen extends StatelessWidget {
     Map<String, dynamic> post =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text(post['title'])),
+      appBar: AppBar(),
       body: NewsPost(post: post),
     );
   }
