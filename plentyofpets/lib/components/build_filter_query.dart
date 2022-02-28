@@ -8,6 +8,7 @@ class BuildFilterQuery {
   List distinctPetID = [];
   List petDocs = [];
 
+  // Map of pet types to breeds
   final Map petBreedMap = {
     'Cat': [
       'Persian',
@@ -28,13 +29,15 @@ class BuildFilterQuery {
     'Other': ['Hamster', 'Guinea Pig', 'Parakeet', 'Rabbit']
   };
 
-  //Collection reference
+  // Collection reference
   final CollectionReference petsCollection =
       FirebaseFirestore.instance.collection('pets');
 
+  // Function to get a list of filtered pet ids and pet docs
   Future<List> getFilteredPets() async {
     List petID = [];
 
+    // Get pet ids based on type
     await petsCollection
         .where('type', isEqualTo: filterData['petType'])
         .get()
@@ -44,8 +47,10 @@ class BuildFilterQuery {
       }
     });
 
-    List breedList = await petsByBreed(filterData['petType']);
-    if (breedList.isNotEmpty) {
+    // If pet breeds were chosen, then get those ids
+    if (filterData['petBreed'].isNotEmpty) {
+      List breedList = await petsByBreed(filterData['petType']);
+      // Only keep ids that intersect across type and breed
       petID = petID.toSet().intersection(breedList.toSet()).toList();
     }
 
@@ -54,26 +59,18 @@ class BuildFilterQuery {
       petID = petID.toSet().intersection(dispoList.toSet()).toList();
     }
 
+    // Get the pet documents that correspond to filtered ids
     petDocs = await getDocs(petID);
     return petDocs;
   }
 
+  // Get a list of pet ids based on breed filters
   Future<List> petsByBreed(String petType) async {
     List breedList = [];
 
-    if (filterData['petBreed'].isNotEmpty) {
-      if (filterData['petBreed'].contains('Other')) {
-        await petsCollection
-            .where('breed', whereNotIn: petBreedMap[petType])
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          for (var doc in querySnapshot.docs) {
-            breedList.add(doc.id);
-          }
-        });
-      }
+    if (filterData['petBreed'].contains('Other')) {
       await petsCollection
-          .where('breed', whereIn: petBreedMap[petType])
+          .where('breed', whereNotIn: petBreedMap[petType])
           .get()
           .then((QuerySnapshot querySnapshot) {
         for (var doc in querySnapshot.docs) {
@@ -81,9 +78,18 @@ class BuildFilterQuery {
         }
       });
     }
+    await petsCollection
+        .where('breed', whereIn: filterData['petBreed'])
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        breedList.add(doc.id);
+      }
+    });
     return breedList;
   }
 
+  // Get a list of pet ids based on disposition filters
   Future<List> petsByDisposition() async {
     List dispoList = [];
     if (filterData['petDisposition'].isNotEmpty) {
@@ -99,6 +105,7 @@ class BuildFilterQuery {
     return dispoList;
   }
 
+  // Get pet documents that correspond to the inputted list of pet ids
   Future<List> getDocs(List petIDs) async {
     List docsList = [];
 

@@ -62,7 +62,7 @@ class PetList extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HomeScreen(tabIndex: 0)));
+                        builder: (context) => const HomeScreen(tabIndex: 0)));
               },
               child: const Text('Clear Filter')),
         ],
@@ -81,7 +81,7 @@ class PetList extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomeScreen(tabIndex: 0)));
+                          builder: (context) => const HomeScreen(tabIndex: 0)));
                 },
                 child: const Text('Clear Filter')),
           ],
