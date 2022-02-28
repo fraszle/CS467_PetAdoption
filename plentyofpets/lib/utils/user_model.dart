@@ -9,6 +9,7 @@ class NewUser {
   final bool organization;
   final String? organizationName;
   final String? organizationUrl;
+  final List favs = [];
 
   NewUser(NewUserBuilder builder)
       : firstName = builder.firstName!,
@@ -31,6 +32,7 @@ class NewUser {
     userInfo['email'] = email;
     userInfo['isAdmin'] = organization;
     userInfo['location'] = {'city': city, 'state': state, 'zip': zipCode};
+    userInfo['favs'] = favs;
 
     // Add Admin specific fields
     if (organization) {

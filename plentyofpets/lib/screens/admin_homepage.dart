@@ -27,14 +27,14 @@ class AdminHomepage extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   AddPetCardButton(buttonText: 'Add a Pet'),
                   EditPetListCardButton(buttonText: 'Edit Pet List')
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   AddNewsCardButton(buttonText: 'Add News'),
                   AccountProfileCardButton(buttonText: 'Account Info')
                 ],
