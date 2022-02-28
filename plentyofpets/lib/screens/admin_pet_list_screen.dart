@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plentyofpets/components/admin_pet_list.dart';
 
 // Displays the entire catalog of animals an organization has
 class AdminPetList extends StatelessWidget {
@@ -10,13 +11,8 @@ class AdminPetList extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Admin Pet List'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
-        ),
+      body: const Center(
+        child: AdminPets(),
       ),
     );
   }

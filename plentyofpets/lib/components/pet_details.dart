@@ -33,7 +33,7 @@ class PetDetails extends StatelessWidget {
                 petDocs[0].data()! as Map<String, dynamic>;
 
             // Create the PetDescription widget with the data
-            return PetDescription(petBasics, petDetails);
+            return PetDescription(petBasics, petDetails, petID);
           }
         });
   }
