@@ -57,7 +57,7 @@ class PetDescription extends StatelessWidget {
                           onPressed: (() {
                             DatabaseService().deletePet(petID);
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => AdminPetList()));
+                                builder: (context) => const AdminPetList()));
                           }),
                           child: const Text('Delete Pet'),
                         ),

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       routes: {
         loginRoute: (context) => const LandingScreen(),
         signupRoute: (context) => const SignupScreen(),
-        homeRoute: (context) => HomeScreen(),
+        homeRoute: (context) => const HomeScreen(),
         adminRoute: (context) => const AdminHomepage(),
         ExtractPetBasics.routeName: (context) => const ExtractPetBasics(),
         HomeFilterScreen.routeName: (context) => const HomeFilterScreen(),
