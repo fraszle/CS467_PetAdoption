@@ -52,7 +52,9 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
               validator: FormBuilderValidators.required(context,
                   errorText: 'required'),
               onChanged: (val) {
-                setState(() {});
+                setState(() {
+                  _filterFormKey.currentState?.fields['petBreed']?.reset();
+                });
               },
             ),
             const SizedBox(height: 10),
