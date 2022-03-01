@@ -61,6 +61,11 @@ class BuildFilterQuery {
       petID = petID.toSet().intersection(dispoList.toSet()).toList();
     }
 
+    if (filterData['petDate'] != null) {
+      List dateList = await petsByDates();
+      petID = petID.toSet().intersection(dateList.toSet()).toList();
+    }
+
     // Get the pet documents that correspond to filtered ids
     petDocs = await getDocs(petID);
     return petDocs;
@@ -119,7 +124,56 @@ class BuildFilterQuery {
   }
 
   Future<List> petsByDates() async {
-    return [];
+    DateTime start = filterData['petDate'].start;
+    DateTime end = filterData['petDate'].end;
+
+    // End needs to be adjusted to be the end of the day, when extracted from
+    // filter data it's defaulted to 12AM of that date
+    DateTime endAdjusted = end.add(
+        const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
+
+    Timestamp tsStart = Timestamp.fromDate(start);
+    Timestamp tsEnd = Timestamp.fromDate(endAdjusted);
+
+    List dateGreaterThanStart = await petDateGreaterThan(tsStart);
+    List dateLessThanEnd = await petDateLessThan(tsEnd);
+
+    List dateList = dateGreaterThanStart
+        .toSet()
+        .intersection(dateLessThanEnd.toSet())
+        .toList();
+
+    return dateList;
+  }
+
+  Future<List> petDateGreaterThan(Timestamp start) async {
+    List dateList = [];
+
+    await petsCollection
+        .where('timestamp', isGreaterThanOrEqualTo: start)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        dateList.add(doc.id);
+      }
+    });
+
+    return dateList;
+  }
+
+  Future<List> petDateLessThan(Timestamp end) async {
+    List dateList = [];
+
+    await petsCollection
+        .where('timestamp', isLessThanOrEqualTo: end)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        dateList.add(doc.id);
+      }
+    });
+
+    return dateList;
   }
 
   // Get pet documents that correspond to the inputted list of pet ids
