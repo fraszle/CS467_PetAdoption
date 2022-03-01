@@ -50,7 +50,7 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
               ],
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: FormBuilderValidators.required(context,
-                  errorText: 'required'),
+                  errorText: 'Required!'),
               onChanged: (val) {
                 setState(() {
                   _filterFormKey.currentState?.fields['petBreed']?.reset();
@@ -107,15 +107,19 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
             ElevatedButton(
                 onPressed: () async {
                   _filterFormKey.currentState?.save();
-                  filterFormData = _filterFormKey.currentState!.value;
-                  List petDocs =
-                      await BuildFilterQuery(filterData: filterFormData)
-                          .getFilteredPets();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen(tabIndex: 0, petDocs: petDocs)));
+                  if (_filterFormKey.currentState!.validate()) {
+                    filterFormData = _filterFormKey.currentState!.value;
+                    List petDocs =
+                        await BuildFilterQuery(filterData: filterFormData)
+                            .getFilteredPets();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HomeScreen(tabIndex: 0, petDocs: petDocs)));
+                  } else {
+                    ErrorHint("Pet type is required!");
+                  }
                 },
                 child: const Text('Submit'))
           ])))

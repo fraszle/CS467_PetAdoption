@@ -5,7 +5,6 @@ class BuildFilterQuery {
 
   final Map<String, dynamic> filterData;
 
-  List distinctPetID = [];
   List petDocs = [];
 
   // Map of pet types to breeds
@@ -61,8 +60,10 @@ class BuildFilterQuery {
       petID = petID.toSet().intersection(dispoList.toSet()).toList();
     }
 
+    // If a date range was chosen, get those ids
     if (filterData['petDate'] != null) {
       List dateList = await petsByDates();
+      // Only keep ids that intersect across type, breed, disposition, and dates
       petID = petID.toSet().intersection(dateList.toSet()).toList();
     }
 
@@ -114,6 +115,8 @@ class BuildFilterQuery {
             tempList.add(doc.id);
           }
         }
+        // Only keep pet ids that, at minimum, have all of the selected
+        // dispositions
         if (tempList.isNotEmpty) {
           dispoList = dispoList.toSet().intersection(tempList.toSet()).toList();
           tempList = [];
@@ -123,6 +126,7 @@ class BuildFilterQuery {
     return dispoList;
   }
 
+  // Get a list of pet ids based on date range filter
   Future<List> petsByDates() async {
     DateTime start = filterData['petDate'].start;
     DateTime end = filterData['petDate'].end;
@@ -132,12 +136,15 @@ class BuildFilterQuery {
     DateTime endAdjusted = end.add(
         const Duration(hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 
+    // Convert to Timestamp because dates are stored as Timestamp in db
     Timestamp tsStart = Timestamp.fromDate(start);
     Timestamp tsEnd = Timestamp.fromDate(endAdjusted);
 
+    // Have to do two separate queries for start and end
     List dateGreaterThanStart = await petDateGreaterThan(tsStart);
     List dateLessThanEnd = await petDateLessThan(tsEnd);
 
+    // Combine the queries to get ids that fall within the date range
     List dateList = dateGreaterThanStart
         .toSet()
         .intersection(dateLessThanEnd.toSet())
@@ -146,6 +153,8 @@ class BuildFilterQuery {
     return dateList;
   }
 
+  // Helper function that queries db for pets added to the db after the start
+  // date filter
   Future<List> petDateGreaterThan(Timestamp start) async {
     List dateList = [];
 
@@ -161,6 +170,8 @@ class BuildFilterQuery {
     return dateList;
   }
 
+  // Helper function that queries db for pets added to the db before the end
+  // date filter
   Future<List> petDateLessThan(Timestamp end) async {
     List dateList = [];
 
