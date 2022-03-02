@@ -64,8 +64,12 @@ class _AddPetFormState extends State<AddPetForm> {
                       border: OutlineInputBorder() 
                     ),
                     textInputAction: TextInputAction.next,
-                    validator: FormBuilderValidators.required(context, 
-                      errorText: 'required')
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(context, errorText:'Required'),
+                      FormBuilderValidators.maxLength(
+                        context,13, errorText:'Name is too long'
+                      ),
+                    ])
                   ),
                   const SizedBox(height: 10),
 

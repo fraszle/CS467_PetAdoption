@@ -4,6 +4,7 @@ import 'package:plentyofpets/components/pet_profile_args.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:plentyofpets/services/pet_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:plentyofpets/theme.dart';
 
 class PetCard extends StatefulWidget {
   const PetCard(this.doc, this.petID, {Key? key}) : super(key: key);
@@ -62,11 +63,7 @@ class _PetCardState extends State<PetCard> {
                       children: [
                         Column(children: [
                           Text(widget.doc['name'],
-                              style: const TextStyle(
-                                  fontFamily: 'IndieFlower',
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 248, 121, 17))),
+                              style: PlentyOfPetsTheme.petCardName,),
                           Expanded(
                             child: SizedBox(
                               height: 110,
@@ -84,28 +81,19 @@ class _PetCardState extends State<PetCard> {
                             ),
                           ),
                         ]),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(widget.doc['availability'],
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23))),
-                            Text('Type: ${widget.doc['type']}',
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23))),
-                            Text('Breed: ${widget.doc['breed']}',
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23)))
-                          ],
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(widget.doc['availability'],
+                                  style: PlentyOfPetsTheme.petCardText,),
+                              Text('Type: ${widget.doc['type']}',
+                                  style: PlentyOfPetsTheme.petCardText,),
+                              Text('Breed: ${widget.doc['breed']}',
+                                  textAlign: TextAlign.center,
+                                  style: PlentyOfPetsTheme.petCardText,),
+                            ],
+                          ),
                         ),
                         Align(
                             alignment: Alignment.topRight,
