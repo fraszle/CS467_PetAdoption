@@ -126,9 +126,14 @@ class DatabaseService {
     });
   }
 
-  Future deletePet(petId) async {
-    var userid = getUser();
-    return petsCollection.doc(petId).delete();
+  Future deletePet(petId) {
+    return petsCollection.doc(petId).collection('pet_details').get()
+      .then((val){
+        val.docs.forEach((doc){ 
+          petsCollection.doc(petId).collection('pet_details').doc(doc.id).delete();
+        });
+        petsCollection.doc(petId).delete();
+      });
   }
 
   Future<List> userPetFavs() {
