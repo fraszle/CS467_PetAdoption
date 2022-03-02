@@ -32,6 +32,16 @@ class PlentyOfPetsTheme {
       fontSize: _paragraphFontSize,
       fontWeight: _paragraphFontWeight,
       color: Colors.brown.shade200);
+  static TextStyle petCardText = const TextStyle(
+      fontFamily: 'Lato',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 20, 77, 23));
+  static TextStyle petCardName = const TextStyle(
+      fontFamily: 'IndieFlower',
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 248, 121, 17));
 
   static OutlinedButtonThemeData outlinedButtonThemeData =
       OutlinedButtonThemeData(

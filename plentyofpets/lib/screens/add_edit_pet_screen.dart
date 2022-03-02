@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plentyofpets/components/add_edit_pet_form.dart';
+import 'package:plentyofpets/components/add_pet_form.dart';
 
 
 class AddPetScreen extends StatefulWidget {
