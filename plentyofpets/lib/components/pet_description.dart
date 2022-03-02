@@ -82,9 +82,17 @@ class PetDescription extends StatelessWidget {
 // Used to create a column of Text for each disposition item
 Column dispositionCol(List disposition) {
   List<Widget> dispoList = [];
+  final Map petDisposition = {
+    'Kids': 'Good with kids',
+    'other animals': 'Good with other animals',
+    'leashed': 'Must be leashed',
+    'House-Trained': 'House-trained',
+    'Exercise': 'Needs regular exercise',
+    'Calm': 'Calm'
+  };
 
   for (var item in disposition) {
-    dispoList.add(Text('- $item'));
+    dispoList.add(Text('- ${petDisposition[item]}'));
   }
 
   return Column(

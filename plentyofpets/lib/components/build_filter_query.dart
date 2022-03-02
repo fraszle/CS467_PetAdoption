@@ -96,14 +96,25 @@ class BuildFilterQuery {
   // Get a list of pet ids based on disposition filters
   Future<List> petsByDisposition() async {
     List dispoList = [];
-    await petsCollection
-        .where('disposition', isEqualTo: filterData['petDisposition'])
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        dispoList.add(doc.id);
-      }
-    });
+    List tempList = [];
+    for (var i = 0; i < filterData['petDisposition'].length; i++) {
+      await petsCollection
+          .where('disposition', arrayContains: filterData['petDisposition'][i])
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          if (i == 0) {
+            dispoList.add(doc.id);
+          } else {
+            tempList.add(doc.id);
+          }
+        }
+        if (tempList.isNotEmpty) {
+          dispoList = dispoList.toSet().intersection(tempList.toSet()).toList();
+          tempList = [];
+        }
+      });
+    }
     return dispoList;
   }
 
