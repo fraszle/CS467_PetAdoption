@@ -10,6 +10,7 @@ class AdminPetList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Currently Listed Pets'),
+        centerTitle: true,
       ),
       body: const Center(
         child: AdminPets(),

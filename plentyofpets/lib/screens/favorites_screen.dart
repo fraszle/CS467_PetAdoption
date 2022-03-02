@@ -10,6 +10,7 @@ class FavoritePets extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorites'),
+        centerTitle: true,
       ),
       body: const Center(
         child: FavPets(),

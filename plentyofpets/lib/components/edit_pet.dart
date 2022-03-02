@@ -34,7 +34,10 @@ class _EditPetFormState extends State<EditPetForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('edit pet')),
+      appBar: AppBar(
+        title: const Text('Edit Pet'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

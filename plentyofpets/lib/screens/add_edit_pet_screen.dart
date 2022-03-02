@@ -15,6 +15,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Pet Information'),
+          centerTitle: true,
         ),
         body: const SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
