@@ -85,8 +85,13 @@ class _EditPetFormState extends State<EditPetForm> {
                             labelText: 'Pet Name',
                             border: OutlineInputBorder()),
                         textInputAction: TextInputAction.next,
-                        validator: FormBuilderValidators.required(context,
-                            errorText: 'required')),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context, errorText:'Required'),
+                          FormBuilderValidators.maxLength(
+                            context,13, errorText:'Name is too long'
+                          ),
+                        ])
+                    ),
                     const SizedBox(height: 10),
 
                     FormBuilderChoiceChip(
@@ -221,8 +226,11 @@ class _EditPetFormState extends State<EditPetForm> {
                               petFormData['Description'],
                             );
 
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const AdminPetList()));
+                            //push adminPetList Screen and remove in stack to admin home screen
+                            Navigator.pushAndRemoveUntil(context,   
+                              MaterialPageRoute(builder: (BuildContext context) => const AdminPetList()), 
+                              ModalRoute.withName('/admin')
+                            );
                           }
                         },
                         child: const Text('Update')),

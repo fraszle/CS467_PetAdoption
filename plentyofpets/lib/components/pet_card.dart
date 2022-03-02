@@ -84,28 +84,31 @@ class _PetCardState extends State<PetCard> {
                             ),
                           ),
                         ]),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(widget.doc['availability'],
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23))),
-                            Text('Type: ${widget.doc['type']}',
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23))),
-                            Text('Breed: ${widget.doc['breed']}',
-                                style: const TextStyle(
-                                    fontFamily: 'Lato',
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 20, 77, 23)))
-                          ],
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(widget.doc['availability'],
+                                  style: const TextStyle(
+                                      fontFamily: 'Lato',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 20, 77, 23))),
+                              Text('Type: ${widget.doc['type']}',
+                                  style: const TextStyle(
+                                      fontFamily: 'Lato',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 20, 77, 23))),
+                              Text('Breed: ${widget.doc['breed']}',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontFamily: 'Lato',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 20, 77, 23)))
+                            ],
+                          ),
                         ),
                         Align(
                             alignment: Alignment.topRight,

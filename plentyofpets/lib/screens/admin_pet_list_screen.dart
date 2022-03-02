@@ -9,7 +9,7 @@ class AdminPetList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Pet List'),
+        title: const Text('Currently Listed Pets'),
       ),
       body: const Center(
         child: AdminPets(),
