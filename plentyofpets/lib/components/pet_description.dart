@@ -48,32 +48,37 @@ class PetDescription extends StatelessWidget {
             child: FutureBuilder(
                 future: DatabaseService().isAdmin(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  return Visibility(
-                    visible: snapshot.data,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: (() {
-                            DatabaseService().deletePet(petID).then((val){
-                            Navigator.of(context).pop(MaterialPageRoute(
-                                builder: (context) => const AdminPetList()));
-                            });
-                          }),
-                          child: const Text('Delete Pet'),
-                        ),
-                        ElevatedButton(
+                  if (snapshot.hasData) {
+                    return Visibility(
+                      visible: snapshot.data,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
                             onPressed: (() {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => EditPetForm(
-                                      petBasics: petBasics,
-                                      petDetails: petDetails,
-                                      petID: petID)));
+                              DatabaseService().deletePet(petID).then((val) {
+                                Navigator.of(context).pop(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AdminPetList()));
+                              });
                             }),
-                            child: const Text('Update Pet'))
-                      ],
-                    ),
-                  );
+                            child: const Text('Delete Pet'),
+                          ),
+                          ElevatedButton(
+                              onPressed: (() {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => EditPetForm(
+                                        petBasics: petBasics,
+                                        petDetails: petDetails,
+                                        petID: petID)));
+                              }),
+                              child: const Text('Update Pet'))
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
                 }))
       ]),
     );
