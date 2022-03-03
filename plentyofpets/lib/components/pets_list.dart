@@ -6,13 +6,13 @@ import 'package:plentyofpets/screens/home_screen.dart';
 
 // This class will be used to create and display a list of pets
 class PetList extends StatelessWidget {
-  PetList({this.petDocs, Key? key}) : super(key: key);
+  const PetList({this.filteredPetDocs, Key? key}) : super(key: key);
 
-  List? petDocs;
+  final List? filteredPetDocs;
 
   @override
   Widget build(BuildContext context) {
-    if (petDocs == null) {
+    if (filteredPetDocs == null) {
       return StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('pets').snapshots(),
           builder:
@@ -27,7 +27,7 @@ class PetList extends StatelessWidget {
               );
             } else {
               // Get a list of all documents in the collections
-              petDocs = snapshot.data!.docs;
+              List allPetDocs = snapshot.data!.docs;
 
               // Create a listview containing all pets in the database
               return Column(children: [
@@ -38,16 +38,16 @@ class PetList extends StatelessWidget {
                     child: const Text('Filter List')),
                 Flexible(
                     child: ListView.builder(
-                        itemCount: petDocs?.length,
+                        itemCount: allPetDocs.length,
                         itemBuilder: (context, index) {
                           Map<String, dynamic> data =
-                              petDocs?[index].data()! as Map<String, dynamic>;
-                          return PetCard(data, petDocs?[index].id);
+                              allPetDocs[index].data()! as Map<String, dynamic>;
+                          return PetCard(data, allPetDocs[index].id);
                         }))
               ]);
             }
           });
-    } else if (petDocs!.isEmpty) {
+    } else if (filteredPetDocs!.isEmpty) {
       // In the event that no pets fit the filter criteria, return a message
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -88,11 +88,11 @@ class PetList extends StatelessWidget {
         ),
         Flexible(
             child: ListView.builder(
-                itemCount: petDocs?.length,
+                itemCount: filteredPetDocs?.length,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data =
-                      petDocs?[index].data()! as Map<String, dynamic>;
-                  return PetCard(data, petDocs?[index].id);
+                      filteredPetDocs?[index].data()! as Map<String, dynamic>;
+                  return PetCard(data, filteredPetDocs?[index].id);
                 }))
       ]);
     }

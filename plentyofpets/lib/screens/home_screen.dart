@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Center(
               // Display a list of pets from the database
-              child: PetList(petDocs: petDocs),
+              child: PetList(filteredPetDocs: petDocs),
             ),
             const Center(
               // Stretch goal
