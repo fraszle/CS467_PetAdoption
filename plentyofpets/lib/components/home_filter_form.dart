@@ -97,6 +97,15 @@ class _HomeFilterFormState extends State<HomeFilterForm> {
                 firstDate: DateTime(1970),
                 lastDate: DateTime.now(),
                 format: DateFormat('yyyy-MM-dd'),
+                pickerBuilder: (context, child) {
+                  return Theme(
+                      data: Theme.of(context).copyWith(
+                        textTheme: ThemeData.light().textTheme.apply(
+                              fontFamily: 'Lato',
+                            ),
+                      ),
+                      child: child!);
+                },
                 decoration: const InputDecoration(
                   labelText: 'Date Range (Click to select a date range)',
                   labelStyle: TextStyle(
