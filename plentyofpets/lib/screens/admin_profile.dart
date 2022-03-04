@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../services/pet_database.dart';
+import '../components/line_divider.dart';
 
 // Class to display Admin account information
 class AdminProfile extends StatelessWidget {
@@ -8,50 +10,43 @@ class AdminProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-
+    // get a reference to the 'users' collecttion
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Admin Profile')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('going to edit profile screen...');
-        },
-        child: const Icon(Icons.edit),
-      ),
-      body: Container(
-          child: FutureBuilder<DocumentSnapshot>(
-        future: users.doc('JimXAqx3qgxONKm6J4Cg').get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Something went wrong: ${snapshot.error}");
-          }
+        body: FutureBuilder(
+      // get access to the snapshot of currently logged in user data
+      future: users.doc(DatabaseService().getUser().toString()).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Something went wrong: ${snapshot.error}");
+        }
 
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("Document does not exist");
-          }
+        if (snapshot.hasData && !snapshot.data!.exists) {
+          return const Text("Document does not exist");
+        }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
 
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    adminName(data['firstName'], data['lastName']),
-                    location(
-                        data['location']['city'], data['location']['state']),
-                    organization(data['orgName']),
-                    orgUrl(data['url']),
-                  ]),
-            );
-          }
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              adminName(data['firstName'], data['lastName']),
+              lineDivider(),
+              location(data['location']['city'], data['location']['state']),
+              lineDivider(),
+              organization(data['orgName']),
+              lineDivider(),
+              orgUrl(data['url']),
+            ]),
+          );
+        }
 
-          return const Text("loading profile...");
-        },
-      )),
-    );
+        return const Text("loading profile...");
+      },
+    ));
   }
 
   // Return profile section for Admin name
@@ -139,7 +134,4 @@ class AdminProfile extends StatelessWidget {
           ],
         ));
   }
-
-  // Floating action button that triggers 'Edit Profile' screen
-  //FloatingActionButton editProfileFloatingButton
 }
