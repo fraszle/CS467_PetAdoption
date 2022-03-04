@@ -42,6 +42,11 @@ class PlentyOfPetsTheme {
       fontSize: 32,
       fontWeight: FontWeight.bold,
       color: Color.fromARGB(255, 248, 121, 17));
+  static TextStyle noFavs = const TextStyle(
+      fontFamily: 'IndieFlower',
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 17, 8, 1));
 
   static OutlinedButtonThemeData outlinedButtonThemeData =
       OutlinedButtonThemeData(

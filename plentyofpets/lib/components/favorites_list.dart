@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plentyofpets/components/pet_card.dart';
 import 'package:plentyofpets/services/pet_database.dart';
+import 'package:plentyofpets/theme.dart';
 
 
 class FavPets extends StatefulWidget {
@@ -32,8 +33,11 @@ class _FavPetsState extends State<FavPets> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Text("Loading");
         }
+        //list of favorite pet (pet id) for logged in user
         List favPets = snapshot.data!['favs'];  
+        
         return FutureBuilder(
+          //retrieves list of pet doc for pet ids in favPets variable
           future: DatabaseService().favPetDocs(favPets), 
           builder:(BuildContext context, AsyncSnapshot<dynamic> listFavPetDocs){
             if (listFavPetDocs.hasData){
@@ -46,7 +50,23 @@ class _FavPetsState extends State<FavPets> {
                     return PetCard(data, favPets[index]);
                   }
                 );
-              }else {return const Text('No favorites yet. Keep Looking!');}
+              }else {return 
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Image.asset(
+                    'assets/images/plentyOfPetsPic.png',
+                    height: 200,
+                    width: 200,
+                    ),
+                    const SizedBox(height: 25),
+                    Text('No favorite pets?!? Keep Looking!! ',
+                      textAlign: TextAlign.center,
+                      style: PlentyOfPetsTheme.noFavs
+                    ),
+                  ]
+                ),
+              );}
             }else{
               return const CircularProgressIndicator();
             }

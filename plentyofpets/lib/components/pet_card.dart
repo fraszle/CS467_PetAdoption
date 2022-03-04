@@ -17,6 +17,7 @@ class PetCard extends StatefulWidget {
 }
 
 class _PetCardState extends State<PetCard> {
+  
   //stream for current user doc
   final Stream<DocumentSnapshot> userStream = FirebaseFirestore.instance
       .collection('users')
@@ -37,80 +38,95 @@ class _PetCardState extends State<PetCard> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Text("Loading");
           }
-          List favPets = snapshot.data!['favs'];
 
+          //determine if user is admin for favorite visibility
+          bool visible = snapshot.data!['isAdmin'];
+
+          //check card against current user favs to add favoriting
+          List favPets = snapshot.data!['favs'];
           if (favPets.contains(widget.petID)) {
             isFav = true;
           }
           return GestureDetector(
-              // When a Card is tapped, we navigate to that pet's profile
-              onTap: () {
-                Navigator.pushNamed(context, ExtractPetBasics.routeName,
-                    arguments: PetProfileArgs(widget.petID, widget.doc));
-              },
-              // Create a card with a ListTile that has pet info
-              child: Card(
-                elevation: 80,
-                color: const Color.fromARGB(255, 219, 240, 220),
-                shadowColor: const Color.fromARGB(255, 1, 27, 1),
-                child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    height: 180,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(children: [
-                          Text(widget.doc['name'],
-                              style: PlentyOfPetsTheme.petCardName,),
-                          Expanded(
-                            child: SizedBox(
-                              height: 110,
+            // When a Card is tapped, we navigate to that pet's profile
+            onTap: () {
+              Navigator.pushNamed(context, ExtractPetBasics.routeName,
+                  arguments: PetProfileArgs(widget.petID, widget.doc));
+            },
+            // Create a card that has pet info
+            child: Card(
+              key: ValueKey<String>(widget.petID),
+              elevation: 80,
+              color: const Color.fromARGB(255, 219, 240, 220),
+              shadowColor: const Color.fromARGB(255, 1, 27, 1),
+              child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 10),
+                  height: 180,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(children: [
+                        Text(widget.doc['name'],
+                            style: PlentyOfPetsTheme.petCardName,),
+                        Expanded(
+                          child: SizedBox(
+                            height: 110,
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 5, 173, 41),
+                              radius: 70,
                               child: CircleAvatar(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 5, 173, 41),
-                                radius: 70,
-                                child: CircleAvatar(
-                                  radius: 55,
-                                  backgroundImage: NetworkImage(widget
-                                          .doc['mainPhoto'] ??
-                                      'https://images.unsplash.com/photo-1636654129379-e7ae6f30bfd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'), // Temp image in case pet doesn't have mainPhoto
-                                ),
+                                radius: 55,
+                                backgroundImage: NetworkImage(widget
+                                        .doc['mainPhoto'] ??
+                                    'https://images.unsplash.com/photo-1636654129379-e7ae6f30bfd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'), // Temp image in case pet doesn't have mainPhoto
                               ),
                             ),
                           ),
-                        ]),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(widget.doc['availability'],
-                                  style: PlentyOfPetsTheme.petCardText,),
-                              Text('Type: ${widget.doc['type']}',
-                                  style: PlentyOfPetsTheme.petCardText,),
-                              Text('Breed: ${widget.doc['breed']}',
-                                  textAlign: TextAlign.center,
-                                  style: PlentyOfPetsTheme.petCardText,),
-                            ],
-                          ),
                         ),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: FavoriteButton(
-                                isFavorite: isFav,
-                                iconSize: 50,
-                                valueChanged: (_isFavorite) {
-                                  //setState((){isFav = _isFavorite;});
-                                  if (_isFavorite) {
-                                    DatabaseService().addFav(widget.petID);
-                                  } else {
-                                    DatabaseService().deleteFav(widget.petID);
-                                  }
-                                })),
-                      ],
-                    )),
-              ));
+                      ]),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(widget.doc['availability'],
+                                style: PlentyOfPetsTheme.petCardText,),
+                            Text('Type: ${widget.doc['type']}',
+                                style: PlentyOfPetsTheme.petCardText,),
+                            Text('Breed: ${widget.doc['breed']}',
+                                textAlign: TextAlign.center,
+                                style: PlentyOfPetsTheme.petCardText,),
+                          ],
+                        ),
+                      ),
+
+                      //favoriting heart that is not visible to admin
+                      Offstage(
+                        offstage: visible,
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: FavoriteButton(
+                            key: ValueKey<String>(widget.petID),
+                            isFavorite: isFav,
+                            iconSize: 50,
+                            //add or delete pet id from firebase on click
+                            valueChanged: (_isFavorite) {
+                              if (_isFavorite) {
+                                DatabaseService().addFav(widget.petID);
+                              } else {
+                                DatabaseService().deleteFav(widget.petID);
+                              }
+                            }
+                          )
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+            )
+          );
         });
   }
 }
