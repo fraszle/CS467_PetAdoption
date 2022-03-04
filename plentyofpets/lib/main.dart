@@ -46,7 +46,9 @@ class MyApp extends StatelessWidget {
       title: 'Plenty of Pets',
       theme: PlentyOfPetsTheme.getTheme(),
       // Redirect to Home screen if user is already logged in
-      initialRoute: showAdminHomePage ? adminRoute : loginRoute,
+      initialRoute: FirebaseAuth.instance.currentUser != null
+          ? (showAdminHomePage ? adminRoute : homeRoute)
+          : loginRoute,
       routes: {
         loginRoute: (context) => const LandingScreen(),
         signupRoute: (context) => const SignupScreen(),
