@@ -6,7 +6,7 @@ import 'favorites_screen.dart';
 import '../screens/news_feed.dart'; // stretch
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({this.tabIndex = 1, this.petDocs, Key? key})
+  const HomeScreen({this.tabIndex = 0, this.petDocs, Key? key})
       : super(key: key);
   final int tabIndex;
   final List? petDocs;

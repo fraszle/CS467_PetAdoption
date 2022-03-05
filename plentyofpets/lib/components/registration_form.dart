@@ -209,6 +209,12 @@ class RegistrationFormState extends State<RegistrationForm> {
       return;
     }
 
-    Navigator.pushNamed(context, MyApp.homeRoute);
+    if (builder.organization) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, MyApp.adminRoute, (route) => false);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, MyApp.homeRoute, (route) => false);
+    }
   }
 }
