@@ -12,41 +12,48 @@ class AdminProfile extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     // get a reference to the 'users' collecttion
     return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Account Information'),
+        ),
         body: FutureBuilder(
-      // get access to the snapshot of currently logged in user data
-      future: users.doc(DatabaseService().getUser().toString()).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Something went wrong: ${snapshot.error}");
-        }
+          // get access to the snapshot of currently logged in user data
+          future: users.doc(DatabaseService().getUser().toString()).get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text("Something went wrong: ${snapshot.error}");
+            }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("Document does not exist");
-        }
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return const Text("Document does not exist");
+            }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
 
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              adminName(data['firstName'], data['lastName']),
-              lineDivider(),
-              location(data['location']['city'], data['location']['state']),
-              lineDivider(),
-              organization(data['orgName']),
-              lineDivider(),
-              orgUrl(data['url']),
-            ]),
-          );
-        }
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      adminName(
+                          data['firstName'] ?? '', data['lastName'] ?? ''),
+                      lineDivider(),
+                      location(data['location']['city'] ?? '',
+                          data['location']['state'] ?? ''),
+                      lineDivider(),
+                      organization(data['organization'] ?? ''),
+                      lineDivider(),
+                      orgUrl(data['url'] ?? ''),
+                    ]),
+              );
+            }
 
-        return const Text("loading profile...");
-      },
-    ));
+            return const Text("loading profile...");
+          },
+        ));
   }
 
   // Return profile section for Admin name
