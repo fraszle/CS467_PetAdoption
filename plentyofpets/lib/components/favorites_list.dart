@@ -1,10 +1,10 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/components/pet_card.dart';
 import 'package:plentyofpets/services/pet_database.dart';
-import 'package:plentyofpets/theme.dart';
 
 
 class FavPets extends StatefulWidget {
@@ -50,23 +50,23 @@ class _FavPetsState extends State<FavPets> {
                     return PetCard(data, favPets[index]);
                   }
                 );
-              }else {return 
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Image.asset(
-                    'assets/images/plentyOfPetsPic.png',
-                    height: 200,
-                    width: 200,
-                    ),
-                    const SizedBox(height: 25),
-                    Text('No favorite pets?!? Keep Looking!! ',
-                      textAlign: TextAlign.center,
-                      style: PlentyOfPetsTheme.noFavs
-                    ),
-                  ]
-                ),
-              );}
+              }else {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Image.asset('assets/images/plentyOfPetsPic.png',
+                        height: 200,
+                        width: 200,
+                      ),
+                      const SizedBox(height: 25),
+                      Text('No favorite pets?!? Keep Looking!! ',
+                        textAlign: TextAlign.center,
+                        style: PlentyOfPetsTheme.noFavs,
+                      ),
+                    ]
+                  ),
+                );
+              }
             }else{
               return const CircularProgressIndicator();
             }

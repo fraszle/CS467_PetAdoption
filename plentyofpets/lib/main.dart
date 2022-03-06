@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:plentyofpets/components/extract_pet_basics.dart';
 import 'package:plentyofpets/screens/home_filter_screen.dart';
 import 'package:plentyofpets/screens/news_post_screen.dart';
+import 'package:plentyofpets/screens/delete_screen.dart';
 import 'package:plentyofpets/theme.dart';
 
 import 'screens/signup_screen.dart';
@@ -12,6 +13,7 @@ import 'screens/landing_screen.dart';
 import 'screens/admin_homepage.dart';
 import 'firebase_options.dart';
 import 'utils/firebase_auth_util.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Plenty of Pets',
       theme: PlentyOfPetsTheme.getTheme(),
+      builder: EasyLoading.init(),
       // Redirect to Home screen if user is already logged in
       initialRoute: FirebaseAuth.instance.currentUser != null
           ? (showAdminHomePage ? adminRoute : homeRoute)
