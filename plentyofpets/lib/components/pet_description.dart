@@ -5,8 +5,6 @@ import 'package:plentyofpets/components/edit_pet.dart';
 import 'package:plentyofpets/services/pet_database.dart';
 import '../components/pet_img_carousel.dart';
 import 'date_converter.dart';
-import 'package:plentyofpets/screens/admin_pet_list_screen.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:plentyofpets/screens/delete_screen.dart';
 
 // Class used to display and format pet's info on the pet profile page
@@ -24,13 +22,6 @@ class PetDescription extends StatefulWidget {
 
 class _PetDescriptionState extends State<PetDescription> {
   bool loading = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
