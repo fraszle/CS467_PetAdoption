@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/add_edit_pet_screen.dart';
+import '../screens/add_pet_screen.dart';
 
 import '../screens/admin_pet_list_screen.dart';
 import '../screens/add_news_screen.dart';
@@ -15,26 +15,28 @@ class AddPetCardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 150,
-      height: 100,
-      child: Card(
-        elevation: 12,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddPetScreen()));
-                },
-                child: Text(buttonText)),
-          ],
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 150,
+        height: 100,
+        child: Card(
+          elevation: 12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AddPetScreen()));
+                  },
+                  child: Text(buttonText)),
+            ],
+          ),
         ),
       ),
     );

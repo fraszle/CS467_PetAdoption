@@ -15,8 +15,8 @@ class PetPics {
       File petPic = File(pic.path);
 
       await firebase_storage.FirebaseStorage.instance
-          .ref(petRef)
-          .putFile(petPic);
+        .ref(petRef)
+        .putFile(petPic);
       String petUrl = await downloadURL(petRef);
       picStorage.add(petUrl);
     }

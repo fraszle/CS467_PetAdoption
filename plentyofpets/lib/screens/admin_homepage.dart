@@ -14,32 +14,34 @@ class AdminHomepage extends StatelessWidget {
           title: const Text('Admin Homepage'),
         ),
         drawer: const Drawer(child: NavDrawer()),
-        body: SizedBox(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 100,
-              ),
-              // App logo will go here!
-              const PawPrint(angle: 0),
-              const SizedBox(
-                height: 100,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  AddPetCardButton(buttonText: 'Add a Pet'),
-                  EditPetListCardButton(buttonText: 'Edit Pet List')
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  AddNewsCardButton(buttonText: 'Add News'),
-                  AccountProfileCardButton(buttonText: 'Account Info')
-                ],
-              )
-            ],
+        body: SingleChildScrollView(
+          child: SizedBox(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 100,
+                ),
+                // App logo will go here!
+                const PawPrint(angle: 0),
+                const SizedBox(
+                  height: 100,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    AddPetCardButton(buttonText: 'Add a Pet'),
+                    EditPetListCardButton(buttonText: 'Edit Pet List')
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    AddNewsCardButton(buttonText: 'Add News'),
+                    AccountProfileCardButton(buttonText: 'Account Info')
+                  ],
+                )
+              ],
+            ),
           ),
         ));
   }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+
+import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/screens/admin_pet_list_screen.dart';
 import 'package:plentyofpets/services/pet_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class EditPetForm extends StatefulWidget {
   final Map petBasics;
@@ -15,6 +18,7 @@ class EditPetForm extends StatefulWidget {
       required this.petDetails,
       required this.petID})
       : super(key: key);
+
   @override
   _EditPetFormState createState() => _EditPetFormState();
 }
@@ -29,7 +33,7 @@ class _EditPetFormState extends State<EditPetForm> {
   ];
   String? petType;
   Map<String, dynamic> petFormData = {};
-  var adminUser;
+  dynamic adminUser;
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +63,15 @@ class _EditPetFormState extends State<EditPetForm> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    const Text(
-                      'Edit Pet Profile',
+                    Text('Edit Pet Profile',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold),
+                      style: PlentyOfPetsTheme.petFormTitle,
                     ),
 
-                    const Text(
+                    Text(
                       'Please complete the information to include in your pet\'s adoption profile',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                      style: PlentyOfPetsTheme.petFormSubheading,
                     ),
 
                     const Padding(
@@ -190,32 +187,24 @@ class _EditPetFormState extends State<EditPetForm> {
                         validator: FormBuilderValidators.required(context,
                             errorText: 'required')),
 
-                    // FormBuilderImagePicker(
-                    // name: 'photos',
-                    // decoration: const InputDecoration(labelText: 'Pick Photos(up to 3)'),
-                    // maxImages: 3,
-                    // ),
-
                     ElevatedButton(
                         onPressed: () async {
+                          //create instance of database object
                           var currentPet = DatabaseService();
+                          
+                          //retrieve user for database calls
+                          adminUser = currentPet.getUser();
+
+                          //save form and retrieve form values
                           _petFormKey.currentState!.save();
                           petFormData = _petFormKey.currentState!.value;
-                          adminUser = currentPet.getUser();
-                          //print(petFormData['Disposition']);
-
-                          //adds pics to firebase storage and pet detail subcollection
-                          // List<String> picStorage = [];
-                          // if(petFormData['photos'] !=null){
-                          //   picStorage = await PetPics(petFormData['photos']).
-                          //     addPetPics(widget.petID);
-                          // };
 
                           //gets admin info from firebase
                           Map adminInfo = await currentPet.getAdmin(adminUser);
 
                           //adds data from pet form to pets collection
                           if (_petFormKey.currentState!.validate()) {
+                            EasyLoading.show(status: 'loading...');
                             await currentPet.editPet(
                               petFormData['petType'],
                               petFormData['Availability'],
@@ -224,11 +213,11 @@ class _EditPetFormState extends State<EditPetForm> {
                               petFormData['Pet Name'],
                               adminUser,
                               widget.petID,
-                              //picStorage,
                               adminInfo,
                               petFormData['Description'],
                             );
 
+                             EasyLoading.dismiss();
                             //push adminPetList Screen and remove in stack to admin home screen
                             Navigator.pushAndRemoveUntil(context,   
                               MaterialPageRoute(builder: (BuildContext context) => const AdminPetList()), 

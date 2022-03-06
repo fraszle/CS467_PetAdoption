@@ -1,10 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:plentyofpets/services/pet_database.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+import 'package:plentyofpets/theme.dart';
 import 'package:plentyofpets/screens/admin_homepage.dart';
+import 'package:plentyofpets/services/pet_database.dart';
 import 'package:plentyofpets/services/pet_pics.dart';
+
 
 class AddPetForm extends StatefulWidget {
   const AddPetForm({Key? key}) : super(key: key);
@@ -22,7 +27,7 @@ class _AddPetFormState extends State<AddPetForm> {
   ];
   String? petType;
   Map<String, dynamic> petFormData = {};
-  var adminUser;
+  dynamic adminUser;
 
   @override
   Widget build(BuildContext context) {
@@ -38,25 +43,20 @@ class _AddPetFormState extends State<AddPetForm> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const Text(
+                Text(
                   'Pet Profile Form',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
+                  style: PlentyOfPetsTheme.petFormTitle,
                 ),
-                const Text(
+                Text(
                   'Please complete the information to include in your pet\'s adoption profile',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                  style: PlentyOfPetsTheme.petFormSubheading,
                 ),
                 const Padding(
                   padding: EdgeInsets.fromLTRB(0, 5, 0, 35),
                 ),
+                
                 FormBuilderTextField(
                     name: 'Pet Name',
                     autofocus: true,
@@ -70,6 +70,7 @@ class _AddPetFormState extends State<AddPetForm> {
                           errorText: 'Name is too long'),
                     ])),
                 const SizedBox(height: 10),
+                
                 FormBuilderChoiceChip(
                   name: 'petType',
                   decoration: const InputDecoration(
@@ -91,6 +92,7 @@ class _AddPetFormState extends State<AddPetForm> {
                       errorText: 'required'),
                 ),
                 const SizedBox(height: 10),
+                
                 FormBuilderTextField(
                   name: 'Breed',
                   decoration: const InputDecoration(
@@ -101,6 +103,7 @@ class _AddPetFormState extends State<AddPetForm> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const SizedBox(height: 10),
+                
                 FormBuilderDropdown(
                   name: 'Availability',
                   decoration: const InputDecoration(
@@ -121,6 +124,7 @@ class _AddPetFormState extends State<AddPetForm> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const SizedBox(height: 10),
+                
                 FormBuilderFilterChip(
                   name: 'Disposition',
                   decoration: const InputDecoration(
@@ -144,6 +148,7 @@ class _AddPetFormState extends State<AddPetForm> {
                   ],
                 ),
                 const SizedBox(height: 10),
+                
                 FormBuilderTextField(
                     name: 'Description',
                     decoration: const InputDecoration(
@@ -154,22 +159,30 @@ class _AddPetFormState extends State<AddPetForm> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.required(context,
                         errorText: 'required')),
+                
                 FormBuilderImagePicker(
                   name: 'photos',
                   decoration:
                       const InputDecoration(labelText: 'Pick Photos(up to 3)'),
                   maxImages: 3,
                 ),
+                
                 ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () async { 
+                      //create instance of database object
                       var currentPet = DatabaseService();
+                      
+                      //retrieve user for database calls
+                      adminUser = currentPet.getUser();
+
+                      //save form and retrieve form values
                       _petFormKey.currentState!.save();
                       petFormData = _petFormKey.currentState!.value;
-                      adminUser = currentPet.getUser();
-                      //print(adminUser);
 
                       //adds data from pet form to pets collection
                       if (_petFormKey.currentState!.validate()) {
+                        EasyLoading.show(status: 'loading...');
+                        
                         var id = await currentPet.addPet(
                           petFormData['petType'],
                           petFormData['Availability'],
@@ -198,6 +211,7 @@ class _AddPetFormState extends State<AddPetForm> {
                           picStorage,
                         );
 
+                        EasyLoading.dismiss();
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const AdminHomepage()));
                       }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:plentyofpets/utils/firebase_auth_util.dart';
 
 class DatabaseService {
@@ -20,6 +21,7 @@ class DatabaseService {
     return currentUser!.uid;
   }
 
+  //returns whether user is admin or not
   Future<bool> isAdmin() {
     var isAdmins = FirebaseAuthUtil.isUserAdmin();
     return isAdmins;
@@ -61,15 +63,15 @@ class DatabaseService {
       'photos': photos
     }).then((value) async {
       return await petsCollection
-          .doc(petId)
-          .set({'mainPhoto': photos[0]}, SetOptions(merge: true));
+        .doc(petId)
+        .set({'mainPhoto': photos[0]}, SetOptions(merge: true));
     });
   }
 
   //adds new pet and captures pet id from add pet form
   Future editPet(var type, var availability, var disposition, var breed,
       var name, admin, var petID, var adminInfo, var description) async {
-    var petDetailDocName;
+    dynamic petDetailDocName;
     return await petsCollection.doc('$petID').update({
       'type': type,
       'availability': availability,
@@ -78,25 +80,23 @@ class DatabaseService {
       'name': name,
       'timestamp': FieldValue.serverTimestamp(),
       'admin': admin,
-      //'mainPhoto': photos[0],
     }).then((pet) async {
-      await petsCollection
+        await petsCollection
           .doc('$petID')
           .collection('pet_details')
           .get()
           .then((value) {
         petDetailDocName = value.docs[0].id;
         return petsCollection
-            .doc('$petID')
-            .collection('pet_details')
-            .doc('$petDetailDocName')
-            .update({
-          'description': description,
-          'name': name,
-          'admin': adminInfo,
-          //'photos': photos
+          .doc('$petID')
+          .collection('pet_details')
+          .doc('$petDetailDocName')
+          .update({
+            'description': description,
+            'name': name,
+            'admin': adminInfo,
+          });
         });
-      });
     });
   }
 
@@ -119,6 +119,7 @@ class DatabaseService {
     });
   }
 
+  //deletes a pet from a user's favorites
   Future deleteFav(petId) async {
     var userid = getUser();
     return await usersCollection.doc(userid).update({
@@ -126,6 +127,7 @@ class DatabaseService {
     });
   }
 
+  //deletes a pet's doc and all docs from sub-collections
   Future deletePet(petId) {
     return petsCollection
         .doc(petId)
@@ -143,6 +145,7 @@ class DatabaseService {
     });
   }
 
+  //creates a list of pet docs from a list of pet id's
   Future<List> userPetFavs() {
     var userid = getUser();
     return FirebaseFirestore.instance

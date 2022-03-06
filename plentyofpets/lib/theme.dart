@@ -47,6 +47,14 @@ class PlentyOfPetsTheme {
       fontSize: 32,
       fontWeight: FontWeight.bold,
       color: Color.fromARGB(255, 17, 8, 1));
+  static TextStyle petFormTitle = const TextStyle(
+      color: Colors.black,
+      fontSize: 40,
+      fontWeight: FontWeight.bold);
+  static TextStyle petFormSubheading = const TextStyle(
+      color: Colors.blue,
+      fontSize: 20,
+      fontWeight: FontWeight.bold);
 
   static OutlinedButtonThemeData outlinedButtonThemeData =
       OutlinedButtonThemeData(

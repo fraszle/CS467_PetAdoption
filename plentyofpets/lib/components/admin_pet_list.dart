@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:plentyofpets/components/pet_card.dart';
 import 'package:plentyofpets/services/pet_database.dart';
 
-// This class will be used to create/display the list of pets 
-//from the admin currently logged in
+// This class creates/displays the list of pets from logged in admin
 class AdminPets extends StatelessWidget {
   const AdminPets({Key? key}) : super(key: key);
 
