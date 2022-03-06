@@ -4,9 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:plentyofpets/components/extract_pet_basics.dart';
 import 'package:plentyofpets/screens/home_filter_screen.dart';
 import 'package:plentyofpets/screens/news_post_screen.dart';
-import 'package:plentyofpets/screens/delete_screen.dart';
 import 'package:plentyofpets/theme.dart';
-
 import 'screens/signup_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/landing_screen.dart';
